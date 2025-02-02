@@ -3,11 +3,11 @@ const path = require('path');
 const app = express();
 
 // Serve the static files from the Angular app
-app.use(express.static(path.join(__dirname, 'dist/lms-app')));
+app.use(express.static(path.join(__dirname, 'dist/lms-app/browser')));
 
 // Send all requests to the index.html file
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/lms-app/index.html'));
+  res.sendFile(path.join(__dirname, 'dist/lms-app/browser/index.html'));
 });
 
 // Heroku will provide a dynamic port
