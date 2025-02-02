@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UserServiceService } from '../user-service.service';
 import { RouterModule } from '@angular/router';
 
@@ -13,7 +13,16 @@ export class NavbarComponent {
  public message:String = "Welcome to Thaleem LMS";
  public users:object = [];
 
+ @ViewChild('navbarCollapse') navbarCollapse!: ElementRef;
+
+
  constructor(private userservice: UserServiceService){}
+
+ closeNavbar() {
+  if (this.navbarCollapse) {
+    this.navbarCollapse.nativeElement.classList.remove('show'); // Collapses menu
+  }
+}
 
  ngOnInit(){
 //  this.users = this.userservice.getUsers();

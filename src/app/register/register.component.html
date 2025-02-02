@@ -15,13 +15,8 @@
 
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
-              <input type="email" id="email" class="form-control" required [(ngModel)]="email" name="email" 
-              #email="ngModel">
+              <input type="email" id="email" class="form-control" required [(ngModel)]="email" name="email">
             </div>
-            <!-- <div *ngIf="email.invalid && email.touched" class="text-danger">
-              <div *ngIf="email.errors?.['required']">Email is required</div>
-              <div *ngIf="email.errors?.['email']">Invalid email address</div>          
-            </div> -->
 
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
