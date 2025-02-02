@@ -1,0 +1,234 @@
+<div class="container-fluid pt-5 my-5">
+    <div class="container-fluid">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="#">Dashboard</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" (click)="logout()">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      
+        <div class="row">
+          <!-- Sidebar -->
+          <div class="col-md-2 bg-light vh-100 p-0">
+            <ul class="nav flex-column p-3">
+              <li class="nav-item mb-3">
+                <button class="btn btn-link nav-link active" (click)="selectFeature('analytics')">
+                  <i class="bi bi-bar-chart"></i> Analytics
+                </button>
+              </li>
+              <li class="nav-item mb-3">
+                <button class="btn btn-link nav-link" (click)="selectFeature('clients')">
+                    <i class="bi bi-person-check"></i> Clients
+                  </button>
+              </li>
+              <li class="nav-item mb-3">
+                <button class="btn btn-link nav-link" (click)="selectFeature('scrape')">
+                    <i class="bi bi-cloud-download"></i> Scrape Tax Data
+                  </button>
+              </li>
+              <li class="nav-item mb-3">
+                <button class="btn btn-link nav-link" (click)="selectFeature('reports')">
+                  <i class="bi bi-file-earmark-text"></i>View Reports
+                </button>
+              </li>
+              <li class="nav-item mb-3">
+                <button class="btn btn-link nav-link" (click)="selectFeature('insights')">
+                  <i class="bi bi-lightbulb"></i>Insights</button>
+              </li>
+            </ul>
+          </div>
+      
+          <!-- Main Content -->
+          <div class="col-md-10 py-4">
+            <div *ngIf="selectedFeature === 'clients'">
+              <h2 class="mb-4">Clients Portfolios</h2>
+              <button class="btn btn-success mb-3" (click)="openAddClientModal()">Add Client</button>
+              <button class="btn btn-primary mb-3 ms-2" (click)="openUploadModal()">Upload CSV</button>
+    
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Client Id</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Fund Name</th>
+                      <th>Shares Owned</th>
+                      <th>Investment Type</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let client of clients; let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ client.clientId }}</td>
+                      <td>{{ client.name }}</td>
+                      <td>{{ client.email }}</td>
+                      <td>{{ client.fundName }}</td>
+                      <td>{{ client.sharesOwned }}</td>
+                      <td>{{ client.investmentType }}</td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary me-2" (click)="editClient(client.id)">Edit</button>
+                        <button class="btn btn-sm btn-danger" (click)="deleteClient(client.id)">Delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div *ngIf="selectedFeature === 'analytics'">
+              <!-- Analytics Section -->
+              <h2 class="mb-4">Analytics</h2>
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <div class="card text-center shadow">
+                    <div class="card-body">
+                      <h5 class="card-title">Total Clients</h5>
+                      <p class="display-5">124</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <div class="card text-center shadow">
+                    <div class="card-body">
+                      <h5 class="card-title">Taxes Calculated</h5>
+                      <p class="display-5">865</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <div class="card text-center shadow">
+                    <div class="card-body">
+                      <h5 class="card-title">Reports Generated</h5>
+                      <p class="display-5">542</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            <div *ngIf="selectedFeature === 'scrape'">
+              <!-- Scrape Tax Data -->
+              <h2 class="mb-4">Scrape Tax Data</h2>
+              <form (submit)="scrapeTaxData()">
+                <div class="mb-3">
+                  <label for="url" class="form-label">Enter Website URL</label>
+                  <input
+                    type="text"
+                    id="url"
+                    class="form-control"
+                    placeholder="https://example.com"
+                    [(ngModel)]="scrapeUrl"
+                    name="url"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-right: 16px;">Scrape</button>
+                <button type="submit" class="btn btn-primary">Add URL</button>
+              </form>
+              <div *ngIf="isLoading" style="text-align: center;">
+                <p>Loading tax data...</p>
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+              <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                {{ errorMessage }}
+              </div>
+              <!-- Table to display the scraped tax data -->
+              <div *ngIf="!isLoading && taxData.length > 0">
+                <h3 class="mt-4">Scraped Tax Data</h3>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Fund Name</th>
+                      <th>Qualified Dividend Income</th>
+                      <th>Capital Gains Long Term</th>
+                      <th>Capital Gains Short Term</th>
+                      <th>Taxable Dividend</th>
+                      <th>Special Dividend</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let data of taxData">
+                      <td>{{ data.fundName }}</td>
+                      <td>{{ data.qualifiedDividendIncome }}</td>
+                      <td>{{ data.capitalGainsLongTerm }}</td>
+                      <td>{{ data.capitalGainsShortTerm }}</td>
+                      <td>{{ data.taxableDividend }}</td>
+                      <td>{{ data.specialDividend }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- Loading Template -->
+                <ng-template #loadingTemplate>
+                  <div class="mt-3">
+                    <p>Loading tax data...</p>
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+      
+            <div *ngIf="selectedFeature === 'reports'">
+              <!-- Reports Section -->
+              <h2 class="mb-4">View Reports</h2>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Report Name</th>
+                      <th>Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let report of reports; let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ report.name }}</td>
+                      <td>{{ report.date }}</td>
+                      <td>
+                        <button class="btn btn-sm btn-success me-2">Download</button>
+                        <button class="btn btn-sm btn-outline-secondary">Edit</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+      
+            <div *ngIf="selectedFeature === 'insights'">
+              <!-- Actionable Insights -->
+              <h2 class="mb-4">Actionable Insights</h2>
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let insight of insights">
+                  <i class="bi bi-lightbulb text-primary me-2"></i>{{ insight }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>      
+</div>

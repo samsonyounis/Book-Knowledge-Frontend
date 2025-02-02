@@ -1,0 +1,115 @@
+
+[
+    {
+        "id":"1",
+        "title": "Introduction to Angular",
+        "subtitle": "Learn the basics of Angular, a popular front-end framework",
+        "des": "This course will provide you with a solid foundation in Angular, covering components, directives, services, and more.",
+        "image":"logo.jpg",
+        "available":"available",
+        "learningOutcomes": [
+          "Understand Angular architecture",
+          "Build dynamic web applications",
+          "Use Angular directives and components",
+          "Implement routing and navigation"
+        ],
+        "modules": [
+          { "title": "Getting Started with Angular', description: 'An introduction to Angular and setting up the environment." },
+          { "title": "Components and Templates', description: 'Understanding components, templates, and data binding in Angular." }
+        ],
+        "instructor": "Samson",
+        "duration": "8 weeks",
+        "level": "Beginner",
+        "language": "English",
+        "price": "99",
+        "reviews": [
+          { "studentName": "John", "comment": "Great course!", "date": "2025-01-01" },
+          { "studentName": "Mike Johnson", "comment": "Very informative and well-structured.", "date": "2025-01-02" }
+        ]
+      },
+
+      {
+        "id":"2",
+        "title": "JavaScript",
+        "subtitle": "Learn the basics of JavaScript, a popular front-end framework",
+        "des": "This course will provide you with a solid foundation in Angular, covering components, directives, services, and more.",
+        "image":"logo.jpg",
+        "available":"available",
+        "learningOutcomes": [
+          "Understand Angular architecture",
+          "Build dynamic web applications",
+          "Use Angular directives and components",
+          "Implement routing and navigation"
+        ],
+        "modules": [
+          { "title": "Getting Started with Angular', description: 'An introduction to Angular and setting up the environment." },
+          { "title": "Components and Templates', description: 'Understanding components, templates, and data binding in Angular." }
+        ],
+        "instructor": "Samson",
+        "duration": "8 weeks",
+        "level": "Beginner",
+        "language": "English",
+        "price": "19",
+        "reviews": [
+          { "studentName": "John", "comment": "Great course!", "date": "2025-01-01" },
+          { "studentName": "Mike Johnson", "comment": "Very informative and well-structured.", "date": "2025-01-02" }
+        ]
+      },
+
+      {
+        "id":"3",
+        "title": "HTML5",
+        "subtitle": "Learn the basics of HTML5, a popular front-end framework",
+        "des": "This course will provide you with a solid foundation in Angular, covering components, directives, services, and more.",
+        "image":"logo.jpg",
+        "available":"available",
+        "learningOutcomes": [
+          "Understand Angular architecture",
+          "Build dynamic web applications",
+          "Use Angular directives and components",
+          "Implement routing and navigation"
+        ],
+        "modules": [
+          { "title": "Getting Started with Angular', description: 'An introduction to Angular and setting up the environment." },
+          { "title": "Components and Templates', description: 'Understanding components, templates, and data binding in Angular." }
+        ],
+        "instructor": "Samson",
+        "duration": "8 weeks",
+        "level": "Beginner",
+        "language": "English",
+        "price": "199",
+        "reviews": [
+          { "studentName": "John", "comment": "Great course!", "date": "2025-01-01" },
+          { "studentName": "Mike Johnson", "comment": "Very informative and well-structured.", "date": "2025-01-02" }
+        ]
+      },
+
+      {
+        "id":"4",
+        "title": "CSS",
+        "subtitle": "Learn the basics of Angular, a popular front-end framework",
+        "des": "This course will provide you with a solid foundation in Angular, covering components, directives, services, and more.",
+        "image":"logo.jpg",
+        "available":"available",
+        "learningOutcomes": [
+          "Understand Angular architecture",
+          "Build dynamic web applications",
+          "Use Angular directives and components",
+          "Implement routing and navigation"
+        ],
+        "modules": [
+          { "title": "Getting Started with Angular', description: 'An introduction to Angular and setting up the environment." },
+          { "title": "Components and Templates', description: 'Understanding components, templates, and data binding in Angular." }
+        ],
+        "instructor": "Samson",
+        "duration": "8 weeks",
+        "level": "Beginner",
+        "language": "English",
+        "price": "199",
+        "reviews": [
+          { "studentName": "John", "comment": "Great course!", "date": "2025-01-01" },
+          { "studentName": "Mike Johnson", "comment": "Very informative and well-structured.", "date": "2025-01-02" }
+        ]
+      }
+
+]   

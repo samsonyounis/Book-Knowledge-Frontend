@@ -1,0 +1,92 @@
+
+<div class="container-fluid pt-5 my-5">
+     <!-- <div class="card h-100 text-center">
+        <img [src]="course?.image" class="card-img-top mx-auto" alt="Image description" style="width: 100px; height: 100px;">
+        <div class="card-body">
+            <h5 class="card-title">{{course?.title}}</h5>
+            <h4 class="card-title">Instructor: {{course?.instructor}}</h4>
+            <p class="card-text">{{course?.des}}</p>
+            <span style="margin: 16px;"><button type="button" class="btn btn-primary">View Course</button></span><br><br>
+            <span style="margin: 16px;"><button type="button" class="btn btn-primary" [disabled]="course?.available !== 'available'"
+               *ngIf="course?.available === 'available'; else later">Enroll Now</button></span>
+            <ng-template #later>
+              <span style="margin: 16px;"><button type="button" class="btn btn-primary" [disabled]="course?.available !== 'available'">Enroll Later</button></span>
+            </ng-template>   
+          </div>
+      </div> -->
+
+      <section class="course-header bg-primary text-white py-5">
+        <div class="container text-center">
+          <h1 class="display-4">{{ course?.title }}</h1>
+          <p class="lead">Course subtitle here</p>
+          <button class="btn btn-light btn-lg" (click)="enroll()">Enroll Now</button>
+        </div>
+      </section>
+      
+      <section class="container my-5">
+        <div class="row">
+          <!-- Course Description -->
+          <div class="col-lg-8">
+            <h2>About this Course</h2>
+            <p>{{ course?.des }}</p>
+            <h3>What you'll learn</h3>
+            <ul>
+              <li *ngFor="let outcome of course?.learningOutcomes">{{ outcome }}</li>
+            </ul>
+      
+            <!-- Syllabus Section -->
+            <h3>Syllabus</h3>
+            <div class="accordion" id="syllabusAccordion">
+              <div class="accordion-item" *ngFor="let module of course?.modules; let i = index">
+                <h2 class="accordion-header" id="heading{{ i }}">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                          [attr.data-bs-target]="'#collapse' + i" [attr.aria-expanded]="i === 0">
+                    {{ module.title }}
+                  </button>
+                </h2>
+                <div [id]="'collapse' + i" class="accordion-collapse collapse" 
+                     [ngClass]="{'show': i === 0}" [attr.aria-labelledby]="'heading{{ i }}'" data-bs-parent="#syllabusAccordion">
+                  <div class="accordion-body">
+                    {{ module.des }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Sidebar with Instructor and Course Info -->
+          <div class="col-lg-4">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h4 class="card-title">Instructor</h4>
+                <p class="card-text">{{ course?.instructor }}</p>
+                <a [routerLink]="['instructor', 1]" class="btn btn-primary">View Profile</a>
+              </div>
+            </div>
+      
+            <div class="card mb-4">
+              <div class="card-body">
+                <h4 class="card-title">Course Details</h4>
+                <p><strong>Duration:</strong> {{ course?.duration }}</p>
+                <p><strong>Level:</strong> {{ course?.level }}</p>
+                <p><strong>Language:</strong> {{ course?.language }}</p>
+                <p><strong>Price:</strong> {{ course?.price | currency }}</p>
+                <div style="text-align: center;">
+                  <button class="btn btn-primary btn-lg" (click)="navigateToCart()">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <!-- Reviews Section -->
+        <div class="my-5">
+          <h3>Student Reviews</h3>
+          <div *ngFor="let review of course?.reviews" class="mb-3">
+            <strong>{{ review.studentName }}</strong>
+            <p>{{ review.comment }}</p>
+            <small class="text-muted">{{ review.date }}</small>
+          </div>
+        </div>
+      </section>      
+      
+</div>

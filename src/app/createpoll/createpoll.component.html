@@ -1,0 +1,181 @@
+<div class="container-fluid pt-5 my-5">
+  <div class="container mt-5">
+    <div>{{ errorMessage }}</div>
+      <h2 class="text-center mb-4">Create Election Poll</h2>
+      <form #pollForm="ngForm" (ngSubmit)="onSubmit()">
+        <!-- Creator Information -->
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header bg-primary text-white">Creator Information</div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName" class="form-label">First Name *</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  class="form-control"
+                  [(ngModel)]="poll.firstName"
+                  required
+                  #firstName="ngModel"
+                />
+                <div *ngIf="firstName.invalid && firstName.touched" class="text-danger">
+                  First Name is required
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="lastName" class="form-label">Last Name *</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  class="form-control"
+                  [(ngModel)]="poll.lastName"
+                  required
+                  #lastName="ngModel"
+                />
+                <div *ngIf="lastName.invalid && lastName.touched" class="text-danger">
+                  Last Name is required
+                </div>
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="phone" class="form-label">Phone Number *</label>
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  class="form-control"
+                  [(ngModel)]="poll.phone"
+                  required
+                  #phone="ngModel"
+                />
+                <div *ngIf="phone.invalid && phone.touched" class="text-danger">
+                  Phone Number is required
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email *</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-control"
+                  [(ngModel)]="poll.email"
+                  required
+                  #email="ngModel"
+                />
+                <div *ngIf="email.invalid && email.touched" class="text-danger">
+                  Email is required
+                </div>
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="voterId" class="form-label">ID Number *</label>
+                <input
+                  type="text"
+                  id="voterId"
+                  name="voterId"
+                  class="form-control"
+                  [(ngModel)]="poll.voterId"
+                  required
+                  #voterId="ngModel"
+                />
+                <div *ngIf="voterId.invalid && voterId.touched" class="text-danger">
+                  ID Number is required
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Poll Information -->
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header bg-success text-white">Poll Information</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="pollTitle" class="form-label">Poll Title</label>
+              <input
+                type="text"
+                id="pollTitle"
+                name="pollTitle"
+                class="form-control"
+                [(ngModel)]="poll.pollTitle"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+                id="description"
+                name="description"
+                class="form-control"
+                [(ngModel)]="poll.description"
+                rows="3"
+              ></textarea>
+            </div>
+    
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="regStartDate" class="form-label">Registration Start Date</label>
+                <input
+                  type="datetime-local"
+                  id="regStartDate"
+                  name="regStartDate"
+                  class="form-control"
+                  [(ngModel)]="poll.regStartDate"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="regEndDate" class="form-label">Registration End Date</label>
+                <input
+                  type="datetime-local"
+                  id="regEndDate"
+                  name="regEndDate"
+                  class="form-control"
+                  [(ngModel)]="poll.regEndDate"
+                />
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="voteStartDate" class="form-label">Voting Start Date</label>
+                <input
+                  type="datetime-local"
+                  id="voteStartDate"
+                  name="voteStartDate"
+                  class="form-control"
+                  [(ngModel)]="poll.voteStartDate"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="voteEndDate" class="form-label">Voting End Date</label>
+                <input
+                  type="datetime-local"
+                  id="voteEndDate"
+                  name="voteEndDate"
+                  class="form-control"
+                  [(ngModel)]="poll.voteEndDate"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="pollForm.invalid"
+          >
+            Create Poll
+          </button>
+        </div>
+      </form>
+    </div>  
+</div>

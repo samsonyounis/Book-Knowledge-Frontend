@@ -1,0 +1,47 @@
+<div class="container-fluid pt-5 my-5">
+    <!-- <div class="card" style="width:300px; margin-bottom: 16px;" *ngFor="let course of courses">
+        <img class="card-img-top" src="logo.jpg" alt="Card image">
+        <div class="card-body" style="text-align: center;">
+          <h4 class="card-title">{{course.title}}</h4>
+          <p class="card-text">{{course.des}}</p>
+          <a href="#" class="btn btn-primary">Enroll</a>
+        </div>
+      </div> -->
+      <div class="input-group">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Search for a course..." 
+          [(ngModel)]="enteredSearchValue"
+          (input)="onSearch()"
+        />
+        <button 
+          class="btn btn-primary" 
+          type="button" 
+          (click)="onSearch()">
+          Search
+        </button>
+      </div><br>
+      <div>{{ errorMessage }}</div>
+    
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+          <!-- Course Card 1 -->
+          <div class="col" *ngFor="let course of courses">
+            <div class="card h-100" *ngIf="enteredSearchValue === '' || course.title.toLowerCase().includes(enteredSearchValue) ">
+              <img [src]="course.image" class="card-img-top" alt="Course 1">
+              <div class="card-body" style="text-align: center;">
+                <h5 class="card-title">{{course.title}}</h5>
+                <h4 class="card-title">Instructor: {{course.instructor}}</h4>
+                <h5 class="card-title">Price: {{course.price | currency: 'KES'}}</h5>
+                <p class="card-text">{{course.des}}</p>
+                <span style="margin: 16px;"><button type="button" class="btn btn-primary" (click)="navigateToCourse(course.id)">View Course</button></span><br><br>
+              
+                <ng-template #later>
+                  <span style="margin: 16px;"><button type="button" class="btn btn-primary" [disabled]="course.available !== 'available'">Enroll Later</button></span>
+                </ng-template>   
+              </div>
+            </div>
+</div>
+<div class="container-fluid pt-5 my-5" style="align-items: center; text-align: center;">
+  <div class="spinner-border" [ngStyle]="{display: displayLoadingIndicator ? 'block':'none'}"></div>
+</div>
