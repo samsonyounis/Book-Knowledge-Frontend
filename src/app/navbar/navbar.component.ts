@@ -14,6 +14,7 @@ export class NavbarComponent {
  public users:object = [];
 
  @ViewChild('navbarCollapse') navbarCollapse!: ElementRef;
+ 
  isNavbarOpen = false;
 
  constructor(private userservice: UserServiceService){}
@@ -22,8 +23,6 @@ export class NavbarComponent {
   if (this.navbarCollapse) {
     this.navbarCollapse.nativeElement.classList.remove('show'); // Collapses menu
   }
-  // this.isNavbarOpen = false;
-  // this.navbarCollapse.nativeElement.classList.remove('show');
 }
 toggleNavbar() {
   this.isNavbarOpen = !this.isNavbarOpen;
@@ -35,16 +34,16 @@ toggleNavbar() {
 }
 
 // Close Navbar When Clicking Outside
-@HostListener('document:click', ['$event'])
-onClickOutside(event: Event) {
-  if (
-    this.isNavbarOpen &&
-    this.navbarCollapse &&
-    !this.navbarCollapse.nativeElement.contains(event.target)
-  ) {
-    this.closeNavbar();
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    if (
+      this.isNavbarOpen &&
+      this.navbarCollapse &&
+      !this.navbarCollapse.nativeElement.contains(event.target)
+    ) {
+      this.closeNavbar();
+    }
   }
-}
 
  ngOnInit(){
 //  this.users = this.userservice.getUsers();
