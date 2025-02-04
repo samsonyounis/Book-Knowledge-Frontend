@@ -3,25 +3,31 @@
     <section class="d-flex justify-content-center align-items-center vh-100 bg-light">
         <div class="card p-4" style="width: 24rem;">
           <h3 class="text-center mb-4">Register</h3>
-          <form (submit)="onRegister()" #registerForm="ngForm">
+          <form (submit)="onRegister(registerForm)" #registerForm="ngForm">
             <div class="mb-3">
-              <label for="name" class="form-label">Full Name</label>
-              <input type="text" id="name" class="form-control" required [(ngModel)]="name"
-               name="name" #fullName="ngModel">
+              <label for="fullName" class="form-label">Full Name</label>
+              <input type="text" id="fullName" class="form-control" required [(ngModel)]="userFullName"
+               name="userFullName" #fullName="ngModel">
             </div>
             <div *ngIf="fullName.invalid && fullName.touched" class="text-danger">
               Name is required
             </div>
 
             <div class="mb-3">
-              <label for="email" class="form-label">Email address</label>
-              <input type="email" id="email" class="form-control" required [(ngModel)]="email" name="email">
+              <label for="userEmail" class="form-label">Email address</label>
+              <input type="email" id="userEmail" class="form-control" required [(ngModel)]="userEmail" 
+              name="userEmail" #email ="ngModel" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$">
+            </div>
+              <div *ngIf="email.invalid && email.touched" class="text-danger">
+                <div *ngIf="email.errors?.['required']">Email is required</div>
+                <div *ngIf="email.errors?.['pattern']">Please enter a valid email address</div>
             </div>
 
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
               <input type="password" id="password" class="form-control" 
-              required [(ngModel)]="password" name="password" #password="ngModel">
+              required [(ngModel)]="password" name="password" #password="ngModel"
+              (ngModelChange)="checkPasswords()">
             </div>
             <div *ngIf="password.invalid && password.touched" class="text-danger">
               Password is required
@@ -29,7 +35,11 @@
 
             <div class="mb-3">
               <label for="confirmPassword" class="form-label">Confirm Password</label>
-              <input type="password" id="confirmPassword" class="form-control" required [(ngModel)]="confirmPassword" name="confirmPassword">
+              <input type="password" id="confirmPassword" class="form-control" required [(ngModel)]="confirmPassword" 
+              name="confirmPassword" #confirmPassword="ngModel" (ngModelChange)="checkPasswords()">
+            </div>
+            <div *ngIf="confirmPassword.touched && passwordMismatch" class="text-danger">
+              Passwords do not match.
             </div>
 
             <button type="submit" class="btn btn-primary w-100" [disabled]="!registerForm.form.valid">Register</button>

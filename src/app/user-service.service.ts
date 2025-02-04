@@ -10,12 +10,13 @@ export class UserServiceService {
 
 // private baseUrl = "http://localhost:4009/api/v1";
 private baseUrl ="https://tax-app-backend-50fa99ed12cc.herokuapp.com/api/v1/user";
+private localUrl ="http://localhost:4009/api/v1/user";
 private tokenKey = 'auth_token';
 
   constructor(private http:HttpClient,private router: Router) { }
 
   private getFullUrl(endpoint: string): string {
-    return `${this.baseUrl}${endpoint}`;
+    return `${this.localUrl}${endpoint}`;
   }
 
   createPoll(poll: any): Observable<any> {
@@ -39,8 +40,10 @@ private tokenKey = 'auth_token';
   }
 
   // Store the token in local storage
-  storeToken(token: string): void {
+  storeToken(token: string, username: string): void {
     localStorage.setItem(this.tokenKey, token);
+    localStorage.setItem("username", username);
+
   }
 
   // Retrieve the token from local storage

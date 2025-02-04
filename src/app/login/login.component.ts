@@ -26,7 +26,9 @@ export class LoginComponent {
         if (response.status === '00') {
           console.log(response.message);
           // Store the token in local storage
-          this.userSerice.storeToken(response.data.accessToken);
+          this.userSerice.storeToken(response.data.accessToken,
+            response.data.fullName
+          );
           // Navigate to the dashboard or home page
           this.router.navigate(['/advisordashboard']);
         } else {

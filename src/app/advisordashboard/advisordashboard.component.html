@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="#">Dashboard</a>
+          <a class="navbar-brand" href="#">{{ fullName }}</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -143,8 +143,48 @@
                   />
                 </div>
                 <button type="submit" class="btn btn-primary" style="margin-right: 16px;">Scrape</button>
-                <button type="submit" class="btn btn-primary">Add URL</button>
+                <button class="btn btn-primary" (click)="addUrl()">Add URL</button>
               </form>
+                        <!-- Table to Display Added URLs -->
+          <div *ngIf="addurlLoading" style="text-align: center;">
+                <p>Adding URL...</p>
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+          </div>
+            <div *ngIf="urlEerrorMessage" class="alert alert-danger mt-3">
+              {{ urlEerrorMessage }}
+            </div>               
+          <h4 class="mt-4">Saved URLs</h4>
+          <button class="btn btn-primary mb-3" (click)="fetchUrls()">Refresh List</button>
+          <div class="table-responsive" *ngIf="urls.length > 0">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Website URL</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let urlData of urls; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td *ngIf="!urlData.editing">{{ urlData.url }}</td>
+                  <td *ngIf="urlData.editing">
+                    <input type="text" [(ngModel)]="urlData.url" class="form-control">
+                  </td>
+                  <td>
+                    <button *ngIf="!urlData.editing" class="btn btn-sm btn-warning me-2" (click)="editUrl(urlData)">Edit</button>
+                    <button *ngIf="urlData.editing" class="btn btn-sm btn-success me-2" (click)="saveUrl(urlData)">Save</button>
+                    <button class="btn btn-sm btn-danger me-2" (click)="deleteUrl(i)">Delete</button>
+                    <button class="btn btn-sm btn-danger" (click)="scrapeFromUrl(urlData)">scrape</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p *ngIf="urls.length === 0" class="text-muted">No URLs added yet.</p>
+
               <div *ngIf="isLoading" style="text-align: center;">
                 <p>Loading tax data...</p>
                 <div class="spinner-border text-primary" role="status">

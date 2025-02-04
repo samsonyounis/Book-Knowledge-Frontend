@@ -16,34 +16,46 @@ export class RegisterComponent {
               private router: Router
   ){}
 
-  name='';
-  email:string='';
+  userFullName='';
+  userEmail:string='';
   password='';
   confirmPassword='';
-  onRegister(){
-    const userData = {
-      fullName: this.name,
-      email: this.email,
-      password: this.password
-    }
 
-    // Send POST request
-    this.userService.registerUser(userData).subscribe({
-      next: (response) => {
-        console.log(response.message);
-        if(response.status==='00'){
-          alert(response.message);
-          //navigate to login
-          this.router.navigateByUrl("/login")
-        }
-        alert(response.message);
-        //navigate to error page with the response message
-      },
-      error: (error) => {
-        console.error('Error:', error);
-        alert(error.message);
-        //navigate to error page with the error meesage
-      }
-    });
+  passwordMismatch = false;
+
+  checkPasswords() {
+    this.passwordMismatch = this.password !== this.confirmPassword;
   }
+  onRegister(form:any){
+    if (form.valid && !this.passwordMismatch) {
+      console.log("Form vvalid and passwords match");
+      alert("Registration Successful!");
+      form.reset();
+
+      const userData = {
+        fullName: this.userFullName,
+        email: this.userEmail,
+        password: this.password
+      }
+  
+      // Send POST request
+      this.userService.registerUser(userData).subscribe({
+        next: (response) => {
+          console.log(response.message);
+          if(response.status==='00'){
+            alert(response.message);
+            //navigate to login
+            this.router.navigateByUrl("/login")
+          }
+          alert(response.message);
+          //navigate to error page with the response message
+        },
+        error: (error) => {
+          console.error('Error:', error);
+          alert(error.message);
+          //navigate to error page with the error meesage
+        }
+      });
+    }
+    }
 }
