@@ -9,7 +9,8 @@ import { UserServiceService } from './user-service.service';
 })
 export class AdvisordashboardserviceService {
 
-  private baseUrl = "http://localhost:4009/api/v1";
+  private localUrl = "http://localhost:4009/api/v1/advisor";
+  private baseUrl ="https://tax-app-backend-50fa99ed12cc.herokuapp.com/api/v1/advisor";
   constructor(private http:HttpClient,private router: Router,
        private userService: UserServiceService) { }
 
@@ -24,7 +25,7 @@ export class AdvisordashboardserviceService {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-      return this.http.post(this.getFullUrl("/advisor/scrape"), url,{headers})
+      return this.http.post(this.getFullUrl("/scrape"), url,{headers})
       .pipe(catchError(this.handleError));
     }
 
@@ -35,7 +36,7 @@ export class AdvisordashboardserviceService {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
       });
-        return this.http.post(this.getFullUrl("/advisor/add-url"), url,{headers})
+        return this.http.post(this.getFullUrl("/add-url"), url,{headers})
         .pipe(catchError(this.handleError));
       }
 
@@ -46,7 +47,7 @@ export class AdvisordashboardserviceService {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         });
-          return this.http.post(this.getFullUrl("/advisor/get-all-urls"),{}, {headers})
+          return this.http.post(this.getFullUrl("/get-all-urls"),{}, {headers})
           .pipe(catchError(this.handleError));
         }
 

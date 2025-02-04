@@ -28,8 +28,8 @@ export class RegisterComponent {
   }
   onRegister(form:any){
     if (form.valid && !this.passwordMismatch) {
-      console.log("Form vvalid and passwords match");
-      alert("Registration Successful!");
+      console.log("Form valid and passwords match");
+      alert("Registering account...!");
       form.reset();
 
       const userData = {
