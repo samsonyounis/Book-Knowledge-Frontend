@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { UserServiceService } from '../user-service.service';
 import { RouterModule } from '@angular/router';
+declare var bootstrap: any;
 
 
 @Component({
@@ -12,41 +13,33 @@ import { RouterModule } from '@angular/router';
 export class NavbarComponent {
  public message:String = "Welcome to Thaleem LMS";
  public users:object = [];
-
- @ViewChild('navbarCollapse') navbarCollapse!: ElementRef;
  
- isNavbarOpen = false;
-
  constructor(private userservice: UserServiceService){}
 
- closeNavbar() {
-  if (this.navbarCollapse) {
-    this.navbarCollapse.nativeElement.classList.remove('show'); // Collapses menu
-  }
-}
-toggleNavbar() {
-  this.isNavbarOpen = !this.isNavbarOpen;
-  if (this.isNavbarOpen) {
-    this.navbarCollapse.nativeElement.classList.add('show');
-  } else {
-    this.navbarCollapse.nativeElement.classList.remove('show');
-  }
-}
-
-// Close Navbar When Clicking Outside
-  @HostListener('document:click', ['$event'])
-  onClickOutside(event: Event) {
-    if (
-      this.isNavbarOpen &&
-      this.navbarCollapse &&
-      !this.navbarCollapse.nativeElement.contains(event.target)
-    ) {
-      this.closeNavbar();
+ ngOnInit() {
+  // Auto-close navbar when clicking outside
+  document.addEventListener('click', (event) => {
+    const navbarCollapse = document.getElementById('mynavbar');
+    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+      const targetElement = event.target as HTMLElement;
+      if (!targetElement.closest('.navbar')) {
+        new bootstrap.Collapse(navbarCollapse).hide();
+      }
     }
-  }
+  });
+}
 
- ngOnInit(){
-//  this.users = this.userservice.getUsers();
-//  this.message = this.userservice.getMessage();
- }
+closeNavbar() {
+  const navbarCollapse = document.getElementById('mynavbar');
+  if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+    new bootstrap.Collapse(navbarCollapse).hide();
+  }
+}
+collapseNavbar() {
+  const navbarCollapse = document.getElementById('navbarNav');
+  if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+    // Collapse the navbar when clicking the burger button again
+    new bootstrap.Collapse(navbarCollapse).hide();
+  }
+}
 }

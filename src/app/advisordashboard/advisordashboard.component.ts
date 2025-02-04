@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { UserServiceService } from '../user-service.service';
 import { AdvisordashboardserviceService } from '../advisordashboardservice.service';
 import { catchError, map, Observable } from 'rxjs';
+declare var bootstrap: any;
+
 
 @Component({
   selector: 'app-advisordashboard',
@@ -49,7 +51,32 @@ export class AdvisordashboardComponent {
 
   ngOnInit() {
     this.fetchUrls(); // Fetch URLs on component load
+    // Auto-close navbar when clicking outside
+    document.addEventListener('click', (event) => {
+      const navbarCollapse = document.getElementById('navbarNav');
+      if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+        const targetElement = event.target as HTMLElement;
+        if (!targetElement.closest('.navbar')) {
+          new bootstrap.Collapse(navbarCollapse).hide();
+        }
+      }
+    });
   }
+
+  closeNavbar() {
+    const navbarCollapse = document.getElementById('navbarNav');
+    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+      new bootstrap.Collapse(navbarCollapse).hide();
+    }
+  }
+  collapseNavbar() {
+    const navbarCollapse = document.getElementById('navbarNav');
+    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+      // Collapse the navbar when clicking the burger button again
+      new bootstrap.Collapse(navbarCollapse).hide();
+    }
+  }
+
   selectFeature(feature: string) {
     this.selectedFeature = feature;
   }
@@ -72,8 +99,10 @@ export class AdvisordashboardComponent {
       .subscribe({
         next: (data) => {
           if (Object.values(data.data).length === 0) {
+            this.isLoading = false;
             this.errorMessage = "No tax data found on this website. Please check the URL";
           } else {
+            this.isLoading = false;
             this.taxData = Object.values(data.data);
           }
           this.isLoading = false; // Hide loading indicator
@@ -143,8 +172,10 @@ export class AdvisordashboardComponent {
       .subscribe({
         next: (data) => {
           if (Object.values(data.data).length === 0) {
+            this.isLoading = false;
             this.errorMessage = "No tax data found on this website. Please check the URL";
           } else {
+            this.isLoading = false;
             this.taxData = Object.values(data.data);
           }
           this.isLoading = false; // Hide loading indicator
