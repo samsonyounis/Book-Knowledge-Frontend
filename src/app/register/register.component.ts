@@ -38,6 +38,7 @@ export class RegisterComponent {
         password: this.password
       }
   
+      
       // Send POST request
       this.userService.registerUser(userData).subscribe({
         next: (response) => {
