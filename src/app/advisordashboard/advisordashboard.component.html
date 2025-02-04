@@ -27,31 +27,41 @@
       
         <div class="row">
           <!-- Sidebar -->
-          <div class="col-md-2 bg-light vh-100 p-0">
+          <div class="col-md-2 bg-light  p-0">
             <ul class="nav flex-column p-3">
               <li class="nav-item mb-3">
-                <button class="btn btn-link nav-link active" (click)="selectFeature('analytics')">
-                  <i class="bi bi-bar-chart"></i> Analytics
-                </button>
+                <a>
+                  <button class="btn btn-link nav-link active" (click)="selectFeature('analytics')">
+                    <i class="bi bi-bar-chart"></i> Analytics
+                  </button>
+                </a>
               </li>
               <li class="nav-item mb-3">
-                <button class="btn btn-link nav-link" (click)="selectFeature('clients')">
+                <a>
+                  <button class="btn btn-link nav-link" (click)="selectFeature('clients')">
                     <i class="bi bi-person-check"></i> Clients
                   </button>
+                </a>
               </li>
               <li class="nav-item mb-3">
-                <button class="btn btn-link nav-link" (click)="selectFeature('scrape')">
+                <a>
+                  <button class="btn btn-link nav-link" (click)="selectFeature('scrape')">
                     <i class="bi bi-cloud-download"></i> Scrape Tax Data
                   </button>
+                </a>
               </li>
               <li class="nav-item mb-3">
-                <button class="btn btn-link nav-link" (click)="selectFeature('reports')">
-                  <i class="bi bi-file-earmark-text"></i>View Reports
-                </button>
+                <a>
+                  <button class="btn btn-link nav-link" (click)="selectFeature('reports')">
+                    <i class="bi bi-file-earmark-text"></i>View Reports
+                  </button>
+                </a>
               </li>
               <li class="nav-item mb-3">
-                <button class="btn btn-link nav-link" (click)="selectFeature('insights')">
-                  <i class="bi bi-lightbulb"></i>Insights</button>
+                <a>
+                  <button class="btn btn-link nav-link" (click)="selectFeature('insights')">
+                    <i class="bi bi-lightbulb"></i>Insights</button>
+                </a>
               </li>
             </ul>
           </div>
@@ -86,7 +96,7 @@
                       <td>{{ client.fundName }}</td>
                       <td>{{ client.sharesOwned }}</td>
                       <td>{{ client.investmentType }}</td>
-                      <td>
+                      <td style="  white-space: nowrap;">
                         <button class="btn btn-sm btn-outline-primary me-2" (click)="editClient(client.id)">Edit</button>
                         <button class="btn btn-sm btn-danger" (click)="deleteClient(client.id)">Delete</button>
                       </td>
@@ -173,7 +183,7 @@
                   <td *ngIf="urlData.editing">
                     <input type="text" [(ngModel)]="urlData.url" class="form-control">
                   </td>
-                  <td>
+                  <td style="  white-space: nowrap;">
                     <button *ngIf="!urlData.editing" class="btn btn-sm btn-warning me-2" (click)="editUrl(urlData)">Edit</button>
                     <button *ngIf="urlData.editing" class="btn btn-sm btn-success me-2" (click)="saveUrl(urlData)">Save</button>
                     <button class="btn btn-sm btn-danger me-2" (click)="deleteUrl(i)">Delete</button>

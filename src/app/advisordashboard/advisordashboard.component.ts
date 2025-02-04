@@ -119,7 +119,7 @@ export class AdvisordashboardComponent {
             this.urls = data.data.map((item: any) => ({
               id: item.id,
               url: item.websiteUrl,
-              editing: true
+              editing: false
             }));
           }
           console.log("Loaded urls:", this.isLoading);
