@@ -17,28 +17,24 @@ export class RegisterComponent {
   ){}
 
   userFullName='';
-  userEmail:string='';
-  password='';
+  userEmail='';
+  userPassword='';
   confirmPassword='';
 
-  passwordMismatch = false;
 
-  checkPasswords() {
-    this.passwordMismatch = this.password !== this.confirmPassword;
-  }
   onRegister(form:any){
-    if (form.valid && !this.passwordMismatch) {
-      console.log("Form valid and passwords match");
+    if (form.valid) {
+      console.log(form.value);
+      console.log("Password:" + this.userPassword);
       alert("Registering account...!");
-      form.reset();
 
       const userData = {
         fullName: this.userFullName,
         email: this.userEmail,
-        password: this.password
+        password: this.userPassword
       }
-  
-      
+
+
       // Send POST request
       this.userService.registerUser(userData).subscribe({
         next: (response) => {

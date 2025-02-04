@@ -24,10 +24,10 @@
             </div>
 
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" id="password" class="form-control" 
-              required [(ngModel)]="password" name="password" #password="ngModel"
-              (ngModelChange)="checkPasswords()">
+              <label for="userPassword" class="form-label">Password</label>
+              <input type="password" id="userPassword" class="form-control" 
+              required [(ngModel)]="userPassword" name="userPassword" #password="ngModel"
+              >
             </div>
             <div *ngIf="password.invalid && password.touched" class="text-danger">
               Password is required
@@ -36,11 +36,11 @@
             <div class="mb-3">
               <label for="confirmPassword" class="form-label">Confirm Password</label>
               <input type="password" id="confirmPassword" class="form-control" required [(ngModel)]="confirmPassword" 
-              name="confirmPassword" #confirmPassword="ngModel" (ngModelChange)="checkPasswords()">
+              name="confirmPassword" #confirmPassword="ngModel">
             </div>
-            <div *ngIf="confirmPassword.touched && passwordMismatch" class="text-danger">
+            <!-- <div *ngIf="confirmPassword.touched" class="text-danger">
               Passwords do not match.
-            </div>
+            </div> -->
 
             <button type="submit" class="btn btn-primary w-100" [disabled]="!registerForm.form.valid">Register</button>
             <p class="text-center mt-3">

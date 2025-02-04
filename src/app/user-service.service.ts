@@ -16,7 +16,7 @@ private tokenKey = 'auth_token';
   constructor(private http:HttpClient,private router: Router) { }
 
   private getFullUrl(endpoint: string): string {
-    return `${this.baseUrl}${endpoint}`;
+    return `${this.localUrl}${endpoint}`;
   }
 
   createPoll(poll: any): Observable<any> {
@@ -24,6 +24,7 @@ private tokenKey = 'auth_token';
     .pipe(catchError(this.handleError));
   }
   registerUser(user: any): Observable<any> {
+    console.log(user.fullName)
     return this.http.post(this.getFullUrl("/register"), user)
     .pipe(catchError(this.handleError));
   }
