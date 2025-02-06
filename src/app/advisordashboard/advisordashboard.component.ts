@@ -27,6 +27,7 @@ export class AdvisordashboardComponent {
   addurlLoading: boolean =false;
   errorMessage: string | null = null;
   urlEerrorMessage: string | null = null;
+  clientErrorMessage: string | null = null;
   nextId: number = 1;
 
   reports = [
@@ -38,19 +39,17 @@ export class AdvisordashboardComponent {
     'Consider converting brokerage accounts to advisory for Client B.',
     'Client C could save $2,000 by rebalancing their portfolio.',
   ];
-  clients =[
-    {id: 1, clientId:"102", name: "samson", email: "sam@gmail.com",
-      fundName: "American Fund", sharesOwned:500, investmentType:"Brokerage"},
-    {id: 2, clientId:"104", name: "Peter", email: "peter@gmail.com",
-      fundName: "American Development Fund", sharesOwned:100, investmentType:"Advisory"},
-    {id: 3, clientId:"107", name: "Gordon", email: "gordon@gmail.com",
-      fundName: "American Fund", sharesOwned:200, investmentType:"Brokerage"},
-  ]
-  urls: { id: number, url: string, editing: boolean }[] = [];
+  clients:any[] =[]
+  newClient = { id:'', name: '', email: '' };
+  newPortfolio = { clientId:'', fundName: '', shares: '', investType:''};
+
+
+  urls: { id: number, url: string, selectors:string, editing: boolean }[] = [];
 
 
   ngOnInit() {
     this.fetchUrls(); // Fetch URLs on component load
+    this.fetchCliets();
     // Auto-close navbar when clicking outside
     document.addEventListener('click', (event) => {
       const navbarCollapse = document.getElementById('navbarNav');
@@ -116,10 +115,79 @@ export class AdvisordashboardComponent {
       });
     }
   }
-  openAddClientModal(){}
+  openAddClientModal() {
+    const modalElement = document.getElementById('addClientModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+  openAddClientPortfolioModal() {
+    const modalElement = document.getElementById('addClientPortfolioModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
   openUploadModal(){}
-  deleteClient(id:number){}
-  editClient(id: number){}
+  addClientPortfolio(){
+    if (!this.newClient.name || !this.newClient.email || !this.newClient.id) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    this.advisorService.addClient(this.newClient)
+      .subscribe({
+        next: (data) => {
+          if(data.status==='00'){
+            this.clients.push({ clientId: this.newClient.id, name: this.newClient.name, email: this.newClient.email });
+            this.clients.push(data.data);
+            this.newClient = { id:'', name: '', email: '' }; // Reset form
+            const modalElement = document.getElementById('addClientModal');
+            if (modalElement) {
+              const modal = bootstrap.Modal.getInstance(modalElement);
+              modal?.hide();
+            }
+    }
+    else{
+      alert(data.message)
+    }     
+  },
+   error: () => {
+    console.log("Error occurred!");
+        }
+  });
+  }
+  
+  addClient() {
+    if (!this.newClient.name || !this.newClient.email || !this.newClient.id) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    this.advisorService.addClient(this.newClient)
+      .subscribe({
+        next: (data) => {
+          if(data.status==='00'){
+            this.clients.push({ clientId: this.newClient.id, name: this.newClient.name, email: this.newClient.email });
+            this.clients.push(data.data);
+            this.newClient = { id:'', name: '', email: '' }; // Reset form
+            const modalElement = document.getElementById('addClientModal');
+            if (modalElement) {
+              const modal = bootstrap.Modal.getInstance(modalElement);
+              modal?.hide();
+            }
+    }
+    else{
+      alert(data.message)
+    }     
+  },
+   error: () => {
+    console.log("Error occurred!");
+        }
+  });
+}
+   
+  deleteClient(id:string){}
+  editClient(id: string){}
 
   logout() {
     this.userService.logout();
@@ -127,13 +195,10 @@ export class AdvisordashboardComponent {
   editUrl(urlData: any) {
     urlData.editing = true;
   }
-
   saveUrl(urlData: any) {
     urlData.editing = false;
   }
-
   deleteUrl(index: number) {
-    //should remove object from db and hen from the list
     this.urls.splice(index, 1);
   }
   fetchUrls() {
@@ -143,11 +208,11 @@ export class AdvisordashboardComponent {
         next: (data) => {
           if (Object.values(data.data).length === 0) {
             console.log("No url data found",data.meesage);
-            console.log("No url data found",data.data);
           } else {
             this.urls = data.data.map((item: any) => ({
               id: item.id,
               url: item.websiteUrl,
+              selectors: item.websiteKeywords,
               editing: false
             }));
           }
@@ -158,6 +223,30 @@ export class AdvisordashboardComponent {
         }
       });
   }
+
+  fetchCliets() {
+    console.log("Fetching Clients");
+    this.advisorService.fetchClients()
+      .subscribe({
+        next: (data) => {
+          if (Object.values(data.data).length === 0) {
+            this.clientErrorMessage = "No clients yet";
+            console.log("No Clients data found",data.meesage);
+          } else {
+            this.clients = data.data.map((client: any) => ({
+              clientId: client.clientId,
+              name: client.clientName,
+              email: client.clientEmail,
+            }));
+          }
+          console.log("Loaded urls:", this.isLoading);
+        },
+        error: () => {
+          console.log("Error occured:");
+        }
+      });
+  }
+
   scrapeFromUrl(urlData:any){
     alert(`Scraping data from: ${urlData.url}`);
     const urlPayload = {
@@ -207,7 +296,7 @@ export class AdvisordashboardComponent {
             alert(data.message);
             this.addurlLoading = false; // Hide loading indicator
           } else {
-            this.urls.push({ id: data.data.id, url: this.scrapeUrl, editing: false });
+            this.urls.push({ id: data.data.id, url: this.scrapeUrl, selectors: '', editing: false });
             this.scrapeUrl = ''; // Clear input after adding
           }
           this.addurlLoading = false; // Hide loading indicator

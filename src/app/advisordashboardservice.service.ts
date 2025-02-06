@@ -29,6 +29,17 @@ export class AdvisordashboardserviceService {
       .pipe(catchError(this.handleError));
     }
 
+    addClient(client: any): Observable<any> {
+      const token = this.userService.getToken();
+      // Set up headers with Bearer Token
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      });
+        return this.http.post(this.getFullUrl("/add-client"), client,{headers})
+        .pipe(catchError(this.handleError));
+      }
+
     addUrl(url: any): Observable<any> {
       const token = this.userService.getToken();
       // Set up headers with Bearer Token
@@ -50,6 +61,16 @@ export class AdvisordashboardserviceService {
           return this.http.post(this.getFullUrl("/get-all-urls"),{}, {headers})
           .pipe(catchError(this.handleError));
         }
+        fetchClients(): Observable<any> {
+          const token = this.userService.getToken();
+          // Set up headers with Bearer Token
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          });
+            return this.http.post(this.getFullUrl("/get-clients"),{}, {headers})
+            .pipe(catchError(this.handleError));
+          }    
 
 
       private handleError(error: HttpErrorResponse): Observable<never> {
