@@ -77,15 +77,15 @@
                   <form (ngSubmit)="addClient()">
                     <div class="mb-3">
                       <label for="clientName" class="form-label">Client ID</label>
-                      <input type="text" id="clientName" class="form-control" [(ngModel)]="newClient.id" name="clientName" required>
+                      <input type="text" id="clientName" class="form-control" [(ngModel)]="newClient.clientId" name="clientName" required>
                     </div>
                     <div class="mb-3">
                       <label for="clientName" class="form-label">Client Name</label>
-                      <input type="text" id="clientName" class="form-control" [(ngModel)]="newClient.name" name="clientName" required>
+                      <input type="text" id="clientName" class="form-control" [(ngModel)]="newClient.clientName" name="clientName" required>
                     </div>
                     <div class="mb-3">
                       <label for="clientEmail" class="form-label">Email</label>
-                      <input type="email" id="clientEmail" class="form-control" [(ngModel)]="newClient.email" name="clientEmail" required>
+                      <input type="email" id="clientEmail" class="form-control" [(ngModel)]="newClient.clientEmail" name="clientEmail" required>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

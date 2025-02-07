@@ -40,7 +40,7 @@ export class AdvisordashboardComponent {
     'Client C could save $2,000 by rebalancing their portfolio.',
   ];
   clients:any[] =[]
-  newClient = { id:'', name: '', email: '' };
+  newClient = { clientId:'', clientName: '', clientEmail: '' };
   newPortfolio = { clientId:'', fundName: '', shares: '', investType:''};
 
 
@@ -131,7 +131,7 @@ export class AdvisordashboardComponent {
   }
   openUploadModal(){}
   addClientPortfolio(){
-    if (!this.newClient.name || !this.newClient.email || !this.newClient.id) {
+    if (!this.newClient.clientId || !this.newClient.clientName || !this.newClient.clientEmail) {
       alert('Please fill in all fields.');
       return;
     }
@@ -139,9 +139,9 @@ export class AdvisordashboardComponent {
       .subscribe({
         next: (data) => {
           if(data.status==='00'){
-            this.clients.push({ clientId: this.newClient.id, name: this.newClient.name, email: this.newClient.email });
+            this.clients.push({ clientId: this.newClient.clientId, name: this.newClient.clientName, email: this.newClient.clientEmail });
             this.clients.push(data.data);
-            this.newClient = { id:'', name: '', email: '' }; // Reset form
+            this.newClient = { clientId:'', clientName: '', clientEmail: '' }; // Reset form
             const modalElement = document.getElementById('addClientModal');
             if (modalElement) {
               const modal = bootstrap.Modal.getInstance(modalElement);
@@ -159,7 +159,7 @@ export class AdvisordashboardComponent {
   }
   
   addClient() {
-    if (!this.newClient.name || !this.newClient.email || !this.newClient.id) {
+    if (!this.newClient.clientName || !this.newClient.clientEmail || !this.newClient.clientId) {
       alert('Please fill in all fields.');
       return;
     }
@@ -167,9 +167,9 @@ export class AdvisordashboardComponent {
       .subscribe({
         next: (data) => {
           if(data.status==='00'){
-            this.clients.push({ clientId: this.newClient.id, name: this.newClient.name, email: this.newClient.email });
+            this.clients.push({ clientId: this.newClient.clientId, name: this.newClient.clientName, email: this.newClient.clientEmail });
             this.clients.push(data.data);
-            this.newClient = { id:'', name: '', email: '' }; // Reset form
+            this.newClient = { clientId:'', clientName: '', clientEmail: '' }; // Reset form
             const modalElement = document.getElementById('addClientModal');
             if (modalElement) {
               const modal = bootstrap.Modal.getInstance(modalElement);

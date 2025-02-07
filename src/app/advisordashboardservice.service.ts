@@ -15,7 +15,7 @@ export class AdvisordashboardserviceService {
        private userService: UserServiceService) { }
 
   private getFullUrl(endpoint: string): string {
-    return `${this.baseUrl}${endpoint}`;
+    return `${this.localUrl}${endpoint}`;
   }
 
   scrapeTaxData(url: any): Observable<any> {
