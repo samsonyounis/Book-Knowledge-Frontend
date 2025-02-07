@@ -41,7 +41,7 @@ export class AdvisordashboardComponent {
   ];
   clients:any[] =[]
   newClient = { clientId:'', clientName: '', clientEmail: '' };
-  newPortfolio = { clientId:'', fundName: '', shares: '', investType:''};
+  newPortfolio = { clientId:'', fundName: '', sharesOwned: '', investmentType:''};
 
 
   urls: { id: number, url: string, selectors:string, editing: boolean }[] = [];
@@ -99,16 +99,14 @@ export class AdvisordashboardComponent {
         next: (data) => {
           if (Object.values(data.data).length === 0) {
             this.isLoading = false;
-            this.errorMessage = "No tax data found on this website. Please check the URL";
+            this.errorMessage = "No tax data found on this website. Please check the URL and try again";
           } else {
             this.isLoading = false;
             this.taxData = Object.values(data.data);
           }
-          this.isLoading = false; // Hide loading indicator
-          console.log("Loading started:", this.isLoading);
         },
         error: () => {
-          this.errorMessage = "Failed to retrieve tax data. Please try again.";
+          this.errorMessage = "Server error. Please try again.";
           this.isLoading = false;
           console.log("Loading started:", this.isLoading);
         }
@@ -122,7 +120,8 @@ export class AdvisordashboardComponent {
       modal.show();
     }
   }
-  openAddClientPortfolioModal() {
+  openAddClientPortfolioModal(clientId:string) {
+    this.newPortfolio.clientId = clientId; // Prefill clientId
     const modalElement = document.getElementById('addClientPortfolioModal');
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
@@ -131,28 +130,32 @@ export class AdvisordashboardComponent {
   }
   openUploadModal(){}
   addClientPortfolio(){
-    if (!this.newClient.clientId || !this.newClient.clientName || !this.newClient.clientEmail) {
+    if (!this.newPortfolio.clientId || !this.newPortfolio.fundName || !this.newPortfolio.investmentType || 
+      !this.newPortfolio.sharesOwned) {
       alert('Please fill in all fields.');
       return;
     }
-    this.advisorService.addClient(this.newClient)
+    this.addurlLoading = true;
+    this.advisorService.addClientPortfolio(this.newPortfolio)
       .subscribe({
         next: (data) => {
           if(data.status==='00'){
-            this.clients.push({ clientId: this.newClient.clientId, name: this.newClient.clientName, email: this.newClient.clientEmail });
-            this.clients.push(data.data);
-            this.newClient = { clientId:'', clientName: '', clientEmail: '' }; // Reset form
-            const modalElement = document.getElementById('addClientModal');
+            this.newPortfolio = { clientId:'', fundName: '', sharesOwned: '' ,investmentType:''}; // Reset form
+            this.addurlLoading = false;
+            alert(data.message)
+            const modalElement = document.getElementById('addClientPortfolioModal');
             if (modalElement) {
               const modal = bootstrap.Modal.getInstance(modalElement);
               modal?.hide();
             }
     }
     else{
+      this.addurlLoading = false;
       alert(data.message)
     }     
   },
    error: () => {
+    this.addurlLoading = false;
     console.log("Error occurred!");
         }
   });
@@ -163,10 +166,12 @@ export class AdvisordashboardComponent {
       alert('Please fill in all fields.');
       return;
     }
+    this.addurlLoading = true;
     this.advisorService.addClient(this.newClient)
       .subscribe({
         next: (data) => {
           if(data.status==='00'){
+            this.addurlLoading = false
             this.clients.push({ clientId: this.newClient.clientId, name: this.newClient.clientName, email: this.newClient.clientEmail });
             this.newClient = { clientId:'', clientName: '', clientEmail: '' }; // Reset form
             const modalElement = document.getElementById('addClientModal');
@@ -176,10 +181,13 @@ export class AdvisordashboardComponent {
             }
     }
     else{
+      this.addurlLoading = false;
       alert(data.message)
     }     
   },
-   error: () => {
+   error: (error) => {
+    this.addurlLoading = false;
+    alert(error.message)
     console.log("Error occurred!");
         }
   });
@@ -266,11 +274,9 @@ export class AdvisordashboardComponent {
             this.isLoading = false;
             this.taxData = Object.values(data.data);
           }
-          this.isLoading = false; // Hide loading indicator
-          console.log("Loading state:", this.isLoading);
         },
         error: () => {
-          this.errorMessage = "Failed to retrieve tax data. Please try again.";
+          this.errorMessage = "Server error. Please try again.";
           this.isLoading = false;
           console.log("Loading started:", this.isLoading);
         }

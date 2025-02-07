@@ -73,6 +73,13 @@
                   <h5 class="modal-title" id="addClientModalLabel">Add New Client</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                                <!-- spinner -->
+                <div *ngIf="addurlLoading" style="text-align: center;">
+                    <p>Adding Portfolio...</p>
+                     <div class="spinner-border text-primary" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                      </div>
+                </div>
                 <div class="modal-body">
                   <form (ngSubmit)="addClient()">
                     <div class="mb-3">
@@ -104,11 +111,18 @@
                   <h5 class="modal-title" id="addClientPortfolioModal">Add Client Portfolio</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <!-- spinner -->
+                    <div *ngIf="addurlLoading" style="text-align: center;">
+                      <p>Adding Portfolio...</p>
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                  </div>
                 <div class="modal-body">
                   <form (ngSubmit)="addClientPortfolio()">
                     <div class="mb-3">
                       <label for="clientId" class="form-label">Client ID</label>
-                      <input type="text" id="clientId" class="form-control" [(ngModel)]="newPortfolio.clientId" name="clientId" required>
+                      <input type="text" id="clientId" class="form-control" [(ngModel)]="newPortfolio.clientId" name="clientId" readonly>
                     </div>
                     <div class="mb-3">
                       <label for="fundName" class="form-label">Fund Name</label>
@@ -116,11 +130,11 @@
                     </div>
                     <div class="mb-3">
                       <label for="shares" class="form-label">Shares Owned</label>
-                      <input type="text" id="shares" class="form-control" [(ngModel)]="newPortfolio.shares" name="shares" required>
+                      <input type="text" id="shares" class="form-control" [(ngModel)]="newPortfolio.sharesOwned" name="shares" required>
                     </div>
                     <div class="mb-3">
                       <label for="investType" class="form-label">Investment Type</label>
-                      <select id="investType" class="form-control" [(ngModel)]="newPortfolio.investType" name="investType" required>
+                      <select id="investType" class="form-control" [(ngModel)]="newPortfolio.investmentType" name="investType" required>
                         <option value="" disabled selected>Select Investment Type</option>
                         <option value="Brokerage">Brokerage Account</option>
                         <option value="Advisory">Advisory Account</option>
@@ -164,7 +178,7 @@
                       <td>{{ client.name }}</td>
                       <td>{{ client.email }}</td>
                       <td style="  white-space: nowrap;">
-                        <button class="btn btn-sm btn-outline-primary me-2" (click)="openAddClientPortfolioModal()">Add Portfolio</button>
+                        <button class="btn btn-sm btn-outline-primary me-2" (click)="openAddClientPortfolioModal(client.clientId)">Add Portfolio</button>
                         <button class="btn btn-sm btn-outline-primary me-2" (click)="editClient(client.clientId)">View Portfolio</button>
                         <button class="btn btn-sm btn-outline-primary me-2" (click)="editClient(client.clientId)">Compute Tax</button>
                         <button class="btn btn-sm btn-outline-primary me-2" (click)="editClient(client.clientId)">Edit</button>

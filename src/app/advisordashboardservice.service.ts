@@ -15,7 +15,7 @@ export class AdvisordashboardserviceService {
        private userService: UserServiceService) { }
 
   private getFullUrl(endpoint: string): string {
-    return `${this.baseUrl}${endpoint}`;
+    return `${this.localUrl}${endpoint}`;
   }
 
   scrapeTaxData(url: any): Observable<any> {
@@ -39,6 +39,17 @@ export class AdvisordashboardserviceService {
         return this.http.post(this.getFullUrl("/add-client"), client,{headers})
         .pipe(catchError(this.handleError));
       }
+
+      addClientPortfolio(portfolio: any): Observable<any> {
+        const token = this.userService.getToken();
+        // Set up headers with Bearer Token
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        });
+          return this.http.post(this.getFullUrl("/add-client-holding"), portfolio,{headers})
+          .pipe(catchError(this.handleError));
+        }
 
     addUrl(url: any): Observable<any> {
       const token = this.userService.getToken();
