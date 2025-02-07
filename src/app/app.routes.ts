@@ -14,6 +14,7 @@ import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
 import { CreatepollComponent } from './createpoll/createpoll.component';
 import { AdvisordashboardComponent } from './advisordashboard/advisordashboard.component';
 import { DashboadrouteguardService } from './dashboadrouteguard.service';
+import { ClientpageComponent } from './clientpage/clientpage.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -22,13 +23,13 @@ export const routes: Routes = [
     {path: 'about', component: AboutComponent},
     {path: 'navbar', component: NavbarComponent},
     {path: 'courses', component: CoursesComponent},
-    {path: 'course/:id', component: CourseComponent},
     {path: 'cart', component: ShoppingcartComponent},
     {path: 'contact', component: ContactComponent, canDeactivate: [ContactDeactivateRouteGuard]},
     {path: 'login',component: LoginComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'createpoll', component: CreatepollComponent},
     {path: 'advisordashboard',component: AdvisordashboardComponent, canActivate:[DashboadrouteguardService]},
+    { path: 'client/:clientId', component: ClientpageComponent },
     { path: '**', redirectTo: '/error?message=Page%20not%20found!'} 
     // {path: '**', component: ErrorComponent}
 ];

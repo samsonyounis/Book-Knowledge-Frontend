@@ -16,7 +16,7 @@ private tokenKey = 'auth_token';
   constructor(private http:HttpClient,private router: Router) { }
 
   private getFullUrl(endpoint: string): string {
-    return `${this.baseUrl}${endpoint}`;
+    return `${this.localUrl}${endpoint}`;
   }
 
   createPoll(poll: any): Observable<any> {

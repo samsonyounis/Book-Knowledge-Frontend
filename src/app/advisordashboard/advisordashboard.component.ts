@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ declare var bootstrap: any;
 })
 export class AdvisordashboardComponent {
   constructor(private userService: UserServiceService,
-              private router: Router, 
+              private route:ActivatedRoute,
               private advisorService: AdvisordashboardserviceService){}
 
   fullName = localStorage.getItem("username");

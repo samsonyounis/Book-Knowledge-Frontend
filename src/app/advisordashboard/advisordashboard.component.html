@@ -179,7 +179,7 @@
                       <td>{{ client.email }}</td>
                       <td style="  white-space: nowrap;">
                         <button class="btn btn-sm btn-outline-primary me-2" (click)="openAddClientPortfolioModal(client.clientId)">Add Portfolio</button>
-                        <button class="btn btn-sm btn-outline-primary me-2" (click)="editClient(client.clientId)">View Portfolio</button>
+                        <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/client', client.clientId]">View Portfolio</button>
                         <button class="btn btn-sm btn-outline-primary me-2" (click)="editClient(client.clientId)">Compute Tax</button>
                         <button class="btn btn-sm btn-outline-primary me-2" (click)="editClient(client.clientId)">Edit</button>
                         <button class="btn btn-sm btn-danger" (click)="deleteClient(client.clientId)">Delete</button>

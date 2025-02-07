@@ -24,6 +24,7 @@ export const errorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, n
         router.navigate(['/error'], { queryParams: { message: errorMessage } });
       } else {
         errorMessage = error.error?.message || 'Something went wrong!';
+        console.log(error.message)
         router.navigate(['/error'], { queryParams: { message: errorMessage } });
       }
 

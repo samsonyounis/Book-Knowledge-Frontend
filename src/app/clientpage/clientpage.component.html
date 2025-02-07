@@ -1,0 +1,79 @@
+<div class="container-fluid pt-5 my-5">
+    <div class="container mt-4">
+        <!-- Client Info -->
+        <div class="card shadow-sm p-3 mb-4">
+          <h3 class="mb-2">{{ client.name }}</h3>
+          <p><strong>Email:</strong> {{ client.email }}</p>
+          <p><strong>Client ID:</strong> {{ client.clientId }}</p>
+        </div>
+      
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs mb-3">
+          <li class="nav-item">
+            <a class="nav-link active" (click)="selectTab('reports')">📊 View Reports</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="selectTab('download')">📥 Download Reports</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="selectTab('insights')">🔍 View Insights</a>
+          </li>
+        </ul>
+      
+        <!-- Tab Content -->
+        <div *ngIf="selectedTab === 'reports'">
+          <h4>📊 Tax Reports</h4>
+          <table class="table table-striped mt-3">
+            <thead class="table-dark">
+              <tr>
+                <th>Investment Type</th>
+                <th>Qualified Dividend Tax</th>
+                <th>Capital Gains LT</th>
+                <th>Capital Gains ST</th>
+                <th>Taxable Dividend Tax</th>
+                <th>Special Dividend Tax</th>
+                <th>Total Tax</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let report of reports">
+                <td>{{ report.investmentType }}</td>
+                <td>{{ report.qualifiedDividendTax | currency }}</td>
+                <td>{{ report.capitalGainsLongTermTax | currency }}</td>
+                <td>{{ report.capitalGainsShortTermTax | currency }}</td>
+                <td>{{ report.taxableDividendTax | currency }}</td>
+                <td>{{ report.specialDividendTax | currency }}</td>
+                <td class="fw-bold">{{ report.totalTax | currency }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      
+        <div *ngIf="selectedTab === 'download'">
+          <h4>📥 Download Reports</h4>
+          <button class="btn btn-success me-2" (click)="downloadReport('pdf')">
+            📄 Download PDF
+          </button>
+          <button class="btn btn-primary" (click)="downloadReport('excel')">
+            📊 Download Excel
+          </button>
+        </div>
+      
+        <div *ngIf="selectedTab === 'insights'">
+          <h4>🔍 Insights</h4>
+          <!-- <canvas 
+          baseChart
+          [data]="chartData" 
+          [type]="chartType">
+        </canvas>  -->
+        <!-- Insights List -->
+        <div class="insights-container">
+          <h5>📌 Key Insights</h5>
+          <ul>
+            <li *ngFor="let insight of insights">✔️ {{ insight }}</li>
+          </ul>
+        </div>
+        </div>
+      </div>
+</div>
+  
