@@ -17,9 +17,11 @@ export class LoginComponent {
   password='';
   userType='ADMIN';
   errorMessage ='';
+  isLoading: boolean = false; // Loading state
   constructor(private userSerice: UserServiceService, private router:Router){}
-  onLogin(){
 
+  onLogin(){
+    this.isLoading = true;
      // Call the AuthService login method
      this.userSerice.login(this.email, this.password).subscribe({
       next: (response) => {
@@ -29,15 +31,18 @@ export class LoginComponent {
           this.userSerice.storeToken(response.data.accessToken,
             response.data.fullName
           );
+          this.isLoading = false;
           // Navigate to the dashboard or home page
           this.router.navigate(['/advisordashboard']);
         } else {
           console.log(response.message);
+          this.isLoading = false;
           alert(response.message);
         }
       },
       error: (error) => {
         console.error('Login error:', error);
+        this.isLoading = false;
         alert(error.message);
       }
     });

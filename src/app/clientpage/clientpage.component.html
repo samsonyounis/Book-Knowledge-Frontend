@@ -61,11 +61,14 @@
       
         <div *ngIf="selectedTab === 'insights'">
           <h4>🔍 Insights</h4>
-          <!-- <canvas 
-          baseChart
-          [data]="chartData" 
-          [type]="chartType">
-        </canvas>  -->
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-6 col-sm-12">
+                <canvas baseChart [data]="chartData" [type]="chartType" [options]="pieChartOptions">
+                </canvas>
+              </div>
+            </div>
+          </div>
         <!-- Insights List -->
         <div class="insights-container">
           <h5>📌 Key Insights</h5>
