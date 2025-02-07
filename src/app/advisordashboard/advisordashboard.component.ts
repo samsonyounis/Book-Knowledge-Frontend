@@ -168,7 +168,6 @@ export class AdvisordashboardComponent {
         next: (data) => {
           if(data.status==='00'){
             this.clients.push({ clientId: this.newClient.clientId, name: this.newClient.clientName, email: this.newClient.clientEmail });
-            this.clients.push(data.data);
             this.newClient = { clientId:'', clientName: '', clientEmail: '' }; // Reset form
             const modalElement = document.getElementById('addClientModal');
             if (modalElement) {
