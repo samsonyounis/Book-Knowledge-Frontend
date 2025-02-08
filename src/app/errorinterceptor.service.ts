@@ -22,7 +22,14 @@ export const errorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, n
       } else if (error.status === 0) {
         errorMessage = 'No connection to the server!';
         router.navigate(['/error'], { queryParams: { message: errorMessage } });
-      } else {
+      }
+      else if(error.status === 401){
+       // Handle Token Expiration
+       localStorage.removeItem('token');  // Clear token
+       alert('Your Session has expired. Please login again.');  // Show alert
+       router.navigate(['/login']);  // Redirect to login
+      }
+       else {
         errorMessage = error.error?.message || 'Something went wrong!';
         console.log(error.message)
         router.navigate(['/error'], { queryParams: { message: errorMessage } });

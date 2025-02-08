@@ -16,6 +16,7 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class ClientpageComponent {
 
+  isLoading = false;
   client: any = {};
   reports: any[] = [];
   selectedTab: string = 'reports';
@@ -55,6 +56,10 @@ export class ClientpageComponent {
 
   selectTab(tab: string) {
     this.selectedTab = tab;
+  }
+  calculateTax(){
+    this.selectedTab = "calculate";
+    this.isLoading = true;
   }
 
   generateChartData() {

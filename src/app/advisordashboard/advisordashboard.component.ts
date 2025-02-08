@@ -40,11 +40,12 @@ export class AdvisordashboardComponent {
     'Client C could save $2,000 by rebalancing their portfolio.',
   ];
   clients:any[] =[]
+  newUrl = { websiteName:'', websiteUrl: '', selectors: '' };
   newClient = { clientId:'', clientName: '', clientEmail: '' };
   newPortfolio = { clientId:'', fundName: '', sharesOwned: '', investmentType:''};
 
 
-  urls: { id: number, url: string, selectors:string, editing: boolean }[] = [];
+  urls: { id: number,websiteName:string, websiteUrl: string, selectors:string, editing: boolean }[] = [];
 
 
   ngOnInit() {
@@ -111,6 +112,13 @@ export class AdvisordashboardComponent {
           console.log("Loading started:", this.isLoading);
         }
       });
+    }
+  }
+  openAddUrlModal() {
+    const modalElement = document.getElementById('addUrlModal');
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
     }
   }
   openAddClientModal() {
@@ -218,8 +226,9 @@ export class AdvisordashboardComponent {
           } else {
             this.urls = data.data.map((item: any) => ({
               id: item.id,
-              url: item.websiteUrl,
-              selectors: item.websiteKeywords,
+              websiteName: item.websiteName,
+              websiteUrl: item.websiteUrl,
+              selectors: item.selectors,
               editing: false
             }));
           }
@@ -255,11 +264,11 @@ export class AdvisordashboardComponent {
   }
 
   scrapeFromUrl(urlData:any){
-    alert(`Scraping data from: ${urlData.url}`);
+    alert(`Scraping data from: ${urlData.websiteUrl}`);
     const urlPayload = {
-      url: urlData.url
+      url: urlData.websiteUrl
     }
-    if (urlData.url) {
+    if (urlData.websiteUrl) {
       this.errorMessage='';
       this.isLoading = true;
       this.taxData = [];
@@ -284,25 +293,23 @@ export class AdvisordashboardComponent {
     }
   }
   addUrl() {
-    if (this.scrapeUrl.trim() === '') {
-      alert("URL field is empty....Please enter URL")
+    if (this.newUrl.websiteUrl === '' || this.newUrl.selectors ==='') {
+      alert("Website URL field or selectors field are empty....Please fill the fields")
     }
-    const urlPayload = {
-      websiteName:'',
-      websiteKeywords:'',
-      websiteUrl: this.scrapeUrl
-    }
-    if (this.scrapeUrl) {
       this.addurlLoading = true;
-      this.advisorService.addUrl(urlPayload)
+      this.advisorService.addUrl(this.newUrl)
       .subscribe({
         next: (data) => {
           if (data.status =='01') {
             alert(data.message);
             this.addurlLoading = false; // Hide loading indicator
           } else {
-            this.urls.push({ id: data.data.id, url: this.scrapeUrl, selectors: '', editing: false });
-            this.scrapeUrl = ''; // Clear input after adding
+            const modalElement = document.getElementById('addUrlModal');
+            if (modalElement) {
+              const modal = bootstrap.Modal.getInstance(modalElement);
+              modal?.hide();
+            }
+            this.urls.push({ id: data.data.id, websiteName: this.newUrl.websiteName, websiteUrl:this.newUrl.websiteUrl, selectors: this.newUrl.selectors, editing: false });
           }
           this.addurlLoading = false; // Hide loading indicator
           console.log("addUrlLoading State:", this.addurlLoading);
@@ -313,6 +320,5 @@ export class AdvisordashboardComponent {
           console.log("addUrlLoading State:", this.addurlLoading);
         }
       });
-    }
   }
 }
