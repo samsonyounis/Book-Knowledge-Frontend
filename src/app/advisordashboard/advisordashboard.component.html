@@ -275,7 +275,6 @@
                   />
                 </div>
                 <button type="submit" class="btn btn-primary" style="margin-right: 16px;">Scrape URL</button>
-                <button type="button" class="btn btn-primary" (click)="openAddUrlModal()">Add URL</button>
               </form>
                         <!-- Table to Display Added URLs -->
           <div *ngIf="addurlLoading" style="text-align: center;">
@@ -288,7 +287,8 @@
               {{ urlEerrorMessage }}
             </div>               
           <h4 class="mt-4">Saved URLs</h4>
-          <button class="btn btn-primary mb-3" (click)="fetchUrls()">Refresh List</button>
+          <button class="btn btn-primary mb-3 me-3" (click)="fetchUrls()">Refresh URL List</button>
+          <button type="button" class="btn btn-primary mb-3 " (click)="openAddUrlModal()">Add URL</button>
           <div class="table-responsive" *ngIf="urls.length > 0">
             <table class="table table-striped">
               <thead>
