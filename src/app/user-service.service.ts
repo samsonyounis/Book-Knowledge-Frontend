@@ -40,6 +40,26 @@ private tokenKey = 'auth_token';
     .pipe(catchError(this.handleError));
   }
 
+  forgotPassword(email: string): Observable<any> {
+    const forgotPasswordData = {
+      email: email
+    };
+
+    return this.http.post<any>(this.getFullUrl("/forgot-password"), forgotPasswordData)
+    .pipe(catchError(this.handleError));
+  }
+
+  resetPassword(otp: string, newPassword:string): Observable<any> {
+    const resetPasswordData = {
+      otp: otp,
+      newPassword: newPassword
+    };
+
+    return this.http.post<any>(this.getFullUrl("/reset-password"), resetPasswordData)
+    .pipe(catchError(this.handleError));
+  }
+
+
   // Store the token in local storage
   storeToken(token: string, username: string): void {
     localStorage.setItem(this.tokenKey, token);
