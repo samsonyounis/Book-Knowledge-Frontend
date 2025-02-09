@@ -17,6 +17,8 @@ import { BaseChartDirective } from 'ng2-charts';
 export class ClientpageComponent {
 
   isLoading = false;
+  errorMessage = '';
+  clientId ='';
   client: any = {};
   reports: any[] = [];
   selectedTab: string = 'reports';
@@ -42,42 +44,132 @@ export class ClientpageComponent {
 
 
   ngOnInit() {
-    const clientId = this.route.snapshot.paramMap.get('clientId')?? '';
+    this.clientId = this.route.snapshot.paramMap.get('clientId')?? '';
     
-    // this.clientService.getClientById(clientId).subscribe(data => {
-    //   this.client = data;
-    // });
-
-    // this.clientService.getClientReports(clientId).subscribe(data => {
-    //   this.reports = data;
-    //   this.generateChartData();
-    // });
+    this.getClientById();
+    this.getClientReports();
   }
 
   selectTab(tab: string) {
     this.selectedTab = tab;
   }
+  getClientById(){
+    console.log("Getting client")
+    const payload = {
+      email: '',
+      clientId: this.clientId
+    }
+    this.errorMessage='';
+    this.isLoading = true;
+    this.clientService.getClientById(payload)
+    .subscribe({
+      next: (data) => {
+        if (data.status === "00") {
+          this.client = data.data;
+          this.isLoading = false;
+        } else {
+          this.isLoading = false;
+          alert(data.meesage);
+          this.errorMessage = data.message;
+        }
+      },
+      error: (error) => {
+        this.errorMessage = "Server error. Please try again.";
+        this.isLoading = false;
+        alert(error.message);
+      }
+    });
+  }
+
   calculateTax(){
     this.selectedTab = "calculate";
     this.isLoading = true;
+    this.errorMessage='';
+    console.log("Getting client tax")
+    const payload = {
+      email: '',
+      clientId: this.clientId
+    }
+    this.clientService.calculateClientTax(payload)
+    .subscribe({
+      next: (data) => {
+        if (data.status === "00") {
+          this.reports = data.data;
+          this.isLoading = false;
+          //navigate to reports tab
+          this.selectedTab = 'reports';
+        } else {
+          this.isLoading = false;
+          alert(data.meesage);
+          this.errorMessage = data.message;
+        }
+      },
+      error: (error) => {
+        this.errorMessage = "Server error. Please try again.";
+        this.isLoading = false;
+        alert(error.message);
+      }
+    });
   }
-
-  generateChartData() {
-    const brokerageTax = this.reports
-      .filter(r => r.investmentType === 'Brokerage')
-      .reduce((sum, r) => sum + r.totalTax, 0);
-
-    const advisoryTax = this.reports
-      .filter(r => r.investmentType === 'Advisory')
-      .reduce((sum, r) => sum + r.totalTax, 0);
-
-    this.chartData.labels = ['Brokerage Tax', 'Advisory Tax'];
-    this.chartData.datasets = [{ data: [brokerageTax, advisoryTax], backgroundColor: ['#007bff', '#28a745'] }];
+  getClientReports(){
+    this.selectedTab = "reports";
+    this.isLoading = true;
+    this.errorMessage='';
+    console.log("Getting client tax reports")
+    const payload = {
+      email: '',
+      clientId: this.clientId
+    }
+    this.clientService.getClientReports(payload)
+    .subscribe({
+      next: (data) => {
+        if (data.status === "00") {
+          this.reports = data.data;
+          this.generateChartData();
+          this.isLoading = false;
+          //navigate to reports tab
+          this.selectedTab = 'reports';
+        } else {
+          this.isLoading = false;
+          alert(data.meesage);
+          this.errorMessage = data.message;
+        }
+      },
+      error: (error) => {
+        this.errorMessage = "Server error. Please try again.";
+        this.isLoading = false;
+        alert(error.message);
+      }
+    });
   }
 
   downloadReport(type: string) {
     const clientId = this.client.clientId;
     const url = `/api/reports/${type}/${clientId}`;
     window.open(url, '_blank');
+  }
+
+  generateChartData() {
+    const brokerageTax = this.reports
+    .filter(r => r.investmentType.toLowerCase().includes('brokerage'))
+    .reduce((sum, r) => sum + r.totalTax, 0);
+
+    const advisoryTax = this.reports
+    .filter(r => r.investmentType.toLowerCase().includes('advisory'))
+    .reduce((sum, r) => sum + r.totalTax, 0);
+
+    const otherInvestmentTax = this.reports
+  .filter(r => {
+    const type = r.investmentType.toLowerCase();
+    return !type.includes('advisory') && !type.includes('brokerage'); // Exclude both
+  })
+  .reduce((sum, r) => sum + r.totalTax, 0);
+
+    this.chartData.labels = ['Brokerage Accounts Tax', 'Advisory Accounts Tax','Other Investments Tax'];
+    this.chartData.datasets = [{ data: [brokerageTax, advisoryTax, otherInvestmentTax], backgroundColor: ['#007bff', '#28a745', '#FFCE56'] }];
+  }
+
+  getClientInsights(){
+    console.log("Getting the clinet insights");
   }
 }

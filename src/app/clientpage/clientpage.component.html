@@ -2,8 +2,8 @@
     <div class="container mt-4">
         <!-- Client Info -->
         <div class="card shadow-sm p-3 mb-4">
-          <h3 class="mb-2">{{ client.name }}</h3>
-          <p><strong>Email:</strong> {{ client.email }}</p>
+          <h3 class="mb-2">{{ client.clientName }}</h3>
+          <p><strong>Email:</strong> {{ client.clientEmail }}</p>
           <p><strong>Client ID:</strong> {{ client.clientId }}</p>
         </div>
       
@@ -45,6 +45,8 @@
                 <th>Capital Gains ST</th>
                 <th>Taxable Dividend Tax</th>
                 <th>Special Dividend Tax</th>
+                <th>Total Capital Gains Tax</th>
+                <th>Total Dividend Tax</th>
                 <th>Total Tax</th>
               </tr>
             </thead>
@@ -56,6 +58,8 @@
                 <td>{{ report.capitalGainsShortTermTax | currency }}</td>
                 <td>{{ report.taxableDividendTax | currency }}</td>
                 <td>{{ report.specialDividendTax | currency }}</td>
+                <td class="fw-bold">{{ report.totalCapitalGainsTax | currency }}</td>
+                <td class="fw-bold">{{ report.totalDividendTax | currency }}</td>
                 <td class="fw-bold">{{ report.totalTax | currency }}</td>
               </tr>
             </tbody>
