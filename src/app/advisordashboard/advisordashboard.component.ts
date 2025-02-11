@@ -22,6 +22,7 @@ export class AdvisordashboardComponent {
   fullName = localStorage.getItem("username");
   selectedFeature: string = 'analytics';
   scrapeUrl: string = '';
+  scrapeMessage ='';
   taxData: any[] = [];
   isLoading: boolean = false; // Loading state
   addurlLoading: boolean =false;
@@ -51,6 +52,7 @@ export class AdvisordashboardComponent {
   ngOnInit() {
     this.fetchUrls(); // Fetch URLs on component load
     this.fetchCliets();
+    this.fetchScrapedData();
     // Auto-close navbar when clicking outside
     document.addEventListener('click', (event) => {
       const navbarCollapse = document.getElementById('navbarNav');
@@ -103,6 +105,7 @@ export class AdvisordashboardComponent {
             this.errorMessage = "No tax data found on this website. Please check the URL";
           } else {
             this.isLoading = false;
+            this.scrapeMessage = data.message;
             this.taxData = Object.values(data.data);
           }
         },
@@ -262,7 +265,27 @@ export class AdvisordashboardComponent {
         }
       });
   }
-
+  fetchScrapedData() {
+    console.log("Fetching previously scraped data");
+    this.advisorService.fetchScrapedData()
+      .subscribe({
+        next: (data) => {
+          if (Object.values(data.data).length === 0) {
+            this.isLoading = false;
+            this.errorMessage = data.message;
+            console.log("No Tax data found",data.meesage);
+          } else {
+            this.isLoading = false;
+            this.scrapeMessage = data.message;
+            this.taxData = Object.values(data.data);
+          }
+          console.log("Loaded urls:", this.isLoading);
+        },
+        error: () => {
+          console.log("Error occured:");
+        }
+      });
+  }
   scrapeFromUrl(urlData:any){
     alert(`Scraping data from: ${urlData.websiteUrl}`);
     const urlPayload = {
@@ -281,6 +304,7 @@ export class AdvisordashboardComponent {
             this.errorMessage = "No tax data found on this website. Please check the URL";
           } else {
             this.isLoading = false;
+            this.scrapeMessage = data.message;
             this.taxData = Object.values(data.data);
           }
         },

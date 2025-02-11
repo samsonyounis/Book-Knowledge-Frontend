@@ -335,7 +335,7 @@
               </div>
               <!-- Table to display the scraped tax data -->
               <div *ngIf="!isLoading && taxData.length > 0">
-                <h3 class="mt-4">Scraped Tax Data</h3>
+                <h3 class="mt-4">{{ scrapeMessage }}</h3>
                 <table class="table table-bordered">
                   <thead>
                     <tr>
