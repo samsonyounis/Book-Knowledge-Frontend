@@ -98,9 +98,9 @@ export class AdvisordashboardComponent {
       this.advisorService.scrapeTaxData(urlPayload)
       .subscribe({
         next: (data) => {
-          if (Object.values(data.data).length === 0) {
+          if (data.status ==="00") {
             this.isLoading = false;
-            this.errorMessage = "No tax data found on this website. Please check the URL and try again";
+            this.errorMessage = data.message;
           } else {
             this.isLoading = false;
             this.taxData = Object.values(data.data);
