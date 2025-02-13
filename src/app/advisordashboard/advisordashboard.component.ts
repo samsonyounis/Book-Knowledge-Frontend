@@ -43,7 +43,7 @@ export class AdvisordashboardComponent {
   clients:any[] =[]
   newUrl = { websiteName:'', websiteUrl: '', selectors: '' };
   newClient = { clientId:'', clientName: '', clientEmail: '' };
-  newPortfolio = { clientId:'', fundName: '', sharesOwned: '', investmentType:''};
+  newPortfolio = { clientId:'', fundName: '', accountName:'', sharesOwned: '', investmentType:''};
 
 
   urls: { id: number,websiteName:string, websiteUrl: string, selectors:string, editing: boolean }[] = [];
@@ -151,7 +151,7 @@ export class AdvisordashboardComponent {
       .subscribe({
         next: (data) => {
           if(data.status==='00'){
-            this.newPortfolio = { clientId:'', fundName: '', sharesOwned: '' ,investmentType:''}; // Reset form
+            this.newPortfolio = { clientId:'', fundName: '', accountName: '', sharesOwned: '' ,investmentType:''}; // Reset form
             this.addurlLoading = false;
             alert(data.message)
             const modalElement = document.getElementById('addClientPortfolioModal');

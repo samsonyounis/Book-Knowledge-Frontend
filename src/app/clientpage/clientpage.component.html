@@ -35,10 +35,11 @@
         </div>
 
         <div *ngIf="selectedTab === 'reports'">
-          <h4>📊 Tax Reports</h4>
+          <h4>📊 Computed Client Tax Reports</h4>
           <table class="table table-striped mt-3">
             <thead class="table-dark">
               <tr>
+                <th>Account Name</th>
                 <th>Investment Type</th>
                 <th>Qualified Dividend Tax</th>
                 <th>Capital Gains LT</th>
@@ -52,6 +53,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let report of reports">
+                <td>{{ report.accountName }}</td>
                 <td>{{ report.investmentType }}</td>
                 <td>{{ report.qualifiedDividendTax | currency }}</td>
                 <td>{{ report.capitalGainsLongTermTax | currency }}</td>

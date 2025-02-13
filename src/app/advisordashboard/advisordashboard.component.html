@@ -164,7 +164,13 @@
                     </div>
                     <div class="mb-3">
                       <label for="fundName" class="form-label">Fund Name</label>
-                      <input type="text" id="fundName" class="form-control" [(ngModel)]="newPortfolio.fundName" name="fundName" required>
+                      <select id="fundName" class="form-control" [(ngModel)]="newPortfolio.fundName" name="fundName" required>
+                        <option *ngFor="let fund of taxData" [value]="fund.fundName">{{ fund.fundName }}</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label for="accountName" class="form-label">Account Name</label>
+                      <input type="text" id="accountName" class="form-control" [(ngModel)]="newPortfolio.accountName" name="accountName" required>
                     </div>
                     <div class="mb-3">
                       <label for="shares" class="form-label">Shares Owned</label>
@@ -218,7 +224,8 @@
                       <td style="  white-space: nowrap;">
                         <button class="btn btn-sm btn-outline-primary me-2" (click)="openAddClientPortfolioModal(client.clientId)">Add Portfolio</button>
                         <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/client', client.clientId]">View Portfolio</button>
-                        <button class="btn btn-sm btn-outline-primary me-2" (click)="editClient(client.clientId)">Compute Tax</button>
+                        <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/client', client.clientId]">Compute Tax</button>
+                        <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/client', client.clientId]">Reports & Insights</button>
                         <button class="btn btn-sm btn-outline-primary me-2" (click)="editClient(client.clientId)">Edit</button>
                         <button class="btn btn-sm btn-danger" (click)="deleteClient(client.clientId)">Delete</button>
                       </td>
