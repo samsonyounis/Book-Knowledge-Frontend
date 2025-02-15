@@ -21,6 +21,7 @@ export class ClientpageComponent {
   clientId ='';
   client: any = {};
   reports: any[] = [];
+  insights: any[] = [];
   selectedTab: string = 'reports';
   chartData: ChartData<'pie'> = {
     labels: ['Brokerage Accounts', 'Advisory Accounts', 'Other Investments'],
@@ -35,11 +36,6 @@ export class ClientpageComponent {
   chartType: ChartType = 'pie';
   pieChartOptions: ChartOptions = {maintainAspectRatio: false,responsive: true };
 
-  insights = [
-    "Client A has 80% of their portfolio in taxable accounts.",
-    "Consider converting brokerage accounts to advisory for Client B.",
-    "Client C could save $2,000 by rebalancing their portfolio."
-  ];
   constructor(private clientService: ClientserviceService, private route: ActivatedRoute) {}
 
 
@@ -94,7 +90,8 @@ export class ClientpageComponent {
     .subscribe({
       next: (data) => {
         if (data.status === "00") {
-          this.reports = data.data;
+          this.reports = data.data.reports;
+          this.insights = data.data.insights;
           this.isLoading = false;
           //navigate to reports tab
           this.selectedTab = 'reports';
@@ -124,7 +121,8 @@ export class ClientpageComponent {
     .subscribe({
       next: (data) => {
         if (data.status === "00") {
-          this.reports = data.data;
+          this.reports = data.data.reports;
+          this.insights = data.data.insights;
           this.generateChartData();
           this.isLoading = false;
           //navigate to reports tab

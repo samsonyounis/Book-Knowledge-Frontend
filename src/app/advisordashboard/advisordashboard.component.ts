@@ -24,6 +24,8 @@ export class AdvisordashboardComponent {
   scrapeUrl: string = '';
   scrapeMessage ='';
   taxData: any[] = [];
+  insights: any[] = [];
+
   isLoading: boolean = false; // Loading state
   addurlLoading: boolean =false;
   errorMessage: string | null = null;
@@ -35,11 +37,7 @@ export class AdvisordashboardComponent {
     { name: '2024 Tax Analysis', date: '2024-12-31' },
     { name: 'Q4 Financial Summary', date: '2024-11-30' },
   ];
-  insights = [
-    'Client A has 80% of their portfolio in taxable accounts.',
-    'Consider converting brokerage accounts to advisory for Client B.',
-    'Client C could save $2,000 by rebalancing their portfolio.',
-  ];
+
   clients:any[] =[]
   newUrl = { websiteName:'', websiteUrl: '', selectors: '' };
   newClient = { clientId:'', clientName: '', clientEmail: '' };
@@ -53,6 +51,7 @@ export class AdvisordashboardComponent {
     this.fetchUrls(); // Fetch URLs on component load
     this.fetchCliets();
     this.fetchScrapedData();
+    this.getAllInsights();
     // Auto-close navbar when clicking outside
     document.addEventListener('click', (event) => {
       const navbarCollapse = document.getElementById('navbarNav');
@@ -236,6 +235,24 @@ export class AdvisordashboardComponent {
             }));
           }
           console.log("Loaded urls:", this.isLoading);
+        },
+        error: () => {
+          console.log("Error occured:");
+        }
+      });
+  }
+
+  getAllInsights() {
+    console.log("Fetching insights");
+    this.advisorService.getAllInsights()
+      .subscribe({
+        next: (data) => {
+          if (Object.values(data.data).length === 0) {
+            console.log("No insights found",data.meesage);
+          } else {
+            this.insights = data.data;
+          }
+          console.log("Loaded insights:", this.isLoading);
         },
         error: () => {
           console.log("Error occured:");

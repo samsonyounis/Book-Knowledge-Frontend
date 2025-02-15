@@ -350,7 +350,6 @@
                       <th>Qualified Dividend Income</th>
                       <th>Capital Gains Long Term</th>
                       <th>Capital Gains Short Term</th>
-                      <th>Taxable Dividend</th>
                       <th>Special Dividend</th>
                     </tr>
                   </thead>
@@ -360,7 +359,6 @@
                       <td>{{ data.qualifiedDividendIncome }}</td>
                       <td>{{ data.capitalGainsLongTerm }}</td>
                       <td>{{ data.capitalGainsShortTerm }}</td>
-                      <td>{{ data.taxableDividend }}</td>
                       <td>{{ data.specialDividend }}</td>
                     </tr>
                   </tbody>
@@ -407,12 +405,29 @@
       
             <div *ngIf="selectedFeature === 'insights'">
               <!-- Actionable Insights -->
-              <h2 class="mb-4">Actionable Insights</h2>
-              <ul class="list-group">
-                <li class="list-group-item" *ngFor="let insight of insights">
-                  <i class="bi bi-lightbulb text-primary me-2"></i>{{ insight }}
-                </li>
-              </ul>
+              <h2 class="mb-4">Actionable Insights For Your Clients</h2>
+              <table class="table table-striped table-bordered table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Client ID</th>
+                    <th>Account Name</th>
+                    <th>Investment Type</th>
+                    <th>Fund Name</th>
+                    <th>Tax Efficiency Score</th>
+                    <th>Actionable Insight</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let insight of insights">
+                    <td>{{ insight.clientId }}</td>
+                    <td>{{ insight.accountName }}</td>
+                    <td>{{ insight.investmentType }}</td>
+                    <td>{{ insight.fundName }}</td>
+                    <td>{{ insight.taxEfficiencyScore | number: '1.2-2' }}</td>
+                    <td>{{ insight.insightMessage }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

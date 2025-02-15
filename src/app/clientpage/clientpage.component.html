@@ -41,10 +41,10 @@
               <tr>
                 <th>Account Name</th>
                 <th>Investment Type</th>
+                <th>Shares Owned</th>
                 <th>Qualified Dividend Tax</th>
                 <th>Capital Gains LT</th>
                 <th>Capital Gains ST</th>
-                <th>Taxable Dividend Tax</th>
                 <th>Special Dividend Tax</th>
                 <th>Total Capital Gains Tax</th>
                 <th>Total Dividend Tax</th>
@@ -55,10 +55,10 @@
               <tr *ngFor="let report of reports">
                 <td>{{ report.accountName }}</td>
                 <td>{{ report.investmentType }}</td>
+                <td>{{ report.sharesOwned }}</td>
                 <td>{{ report.qualifiedDividendTax | currency }}</td>
                 <td>{{ report.capitalGainsLongTermTax | currency }}</td>
                 <td>{{ report.capitalGainsShortTermTax | currency }}</td>
-                <td>{{ report.taxableDividendTax | currency }}</td>
                 <td>{{ report.specialDividendTax | currency }}</td>
                 <td class="fw-bold">{{ report.totalCapitalGainsTax | currency }}</td>
                 <td class="fw-bold">{{ report.totalDividendTax | currency }}</td>
@@ -91,9 +91,26 @@
         <!-- Insights List -->
         <div class="insights-container">
           <h5>📌 Key Insights</h5>
-          <ul>
-            <li *ngFor="let insight of insights">✔️ {{ insight }}</li>
-          </ul>
+          <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+              <tr>
+                <th>Account Name</th>
+                <th>Investment Type</th>
+                <th>Fund Name</th>
+                <th>Tax Efficiency Score</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let insight of insights">
+                <td>{{ insight.accountName }}</td>
+                <td>{{ insight.investmentType }}</td>
+                <td>{{ insight.fundName }}</td>
+                <td>{{ insight.taxEfficiencyScore | number: '1.2-2' }}</td>
+                <td>{{ insight.insightMessage }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         </div>
       </div>
