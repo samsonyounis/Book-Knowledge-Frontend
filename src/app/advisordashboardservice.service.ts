@@ -72,6 +72,16 @@ export class AdvisordashboardserviceService {
           return this.http.post(this.getFullUrl("/get-all-urls"),{}, {headers})
           .pipe(catchError(this.handleError));
         }
+        getAnalytics(): Observable<any> {
+          const token = this.userService.getToken();
+          // Set up headers with Bearer Token
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          });
+            return this.http.post(this.getFullUrl("/get-analytics"),{}, {headers})
+            .pipe(catchError(this.handleError));
+          }
 
         getAllInsights(): Observable<any> {
           const token = this.userService.getToken();

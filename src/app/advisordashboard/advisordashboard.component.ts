@@ -25,6 +25,7 @@ export class AdvisordashboardComponent {
   scrapeMessage ='';
   taxData: any[] = [];
   insights: any[] = [];
+  analytics = {totalClients:0, brokerage:0, advisory:0};
 
   isLoading: boolean = false; // Loading state
   addurlLoading: boolean =false;
@@ -52,6 +53,7 @@ export class AdvisordashboardComponent {
     this.fetchCliets();
     this.fetchScrapedData();
     this.getAllInsights();
+    this.getAnalytics();
     // Auto-close navbar when clicking outside
     document.addEventListener('click', (event) => {
       const navbarCollapse = document.getElementById('navbarNav');
@@ -235,6 +237,21 @@ export class AdvisordashboardComponent {
             }));
           }
           console.log("Loaded urls:", this.isLoading);
+        },
+        error: () => {
+          console.log("Error occured:");
+        }
+      });
+  }
+
+  getAnalytics() {
+    console.log("Fetching analytics");
+    this.advisorService.getAnalytics()
+      .subscribe({
+        next: (data) => {
+          this.analytics.totalClients = data.data.totalClients;
+          this.analytics.brokerage = data.data.brokerageAccounts;
+          this.analytics.advisory = data.data.advisoryAccounts;
         },
         error: () => {
           console.log("Error occured:");
