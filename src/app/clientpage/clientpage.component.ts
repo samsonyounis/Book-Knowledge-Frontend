@@ -24,7 +24,7 @@ export class ClientpageComponent {
   insights: any[] = [];
   selectedTab: string = 'reports';
   chartData: ChartData<'pie'> = {
-    labels: ['Brokerage Accounts', 'Advisory Accounts', 'Other Investments'],
+    labels: ['Brokerage Accounts Tax', 'Advisory Accounts Tax', 'Other Investments Tax'],
     datasets: [
       {
         data: [80, 15, 1],

@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHandlerFn, HttpInterceptor, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, throwError, TimeoutError } from 'rxjs';
 
 // @Injectable({
 //   providedIn: 'root'
@@ -13,7 +13,11 @@ export const errorInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, n
     catchError((error: HttpErrorResponse) => {
       let errorMessage = 'An unexpected error occurred!';
 
-      if (error.status === 404) {
+      if(error instanceof TimeoutError){
+        errorMessage = 'Request timed out! Please try again.';
+        alert(errorMessage);
+      }
+      else if (error.status === 404) {
         errorMessage = 'Page not found!';
         router.navigate(['/error'], { queryParams: { message: errorMessage } });
       } else if (error.status === 500) {
