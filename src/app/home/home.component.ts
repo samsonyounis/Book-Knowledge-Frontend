@@ -13,16 +13,8 @@ export class HomeComponent {
 
   constructor(private activatedRoute: ActivatedRoute){}
 
-  url: string = '';
+  currentYear: number = new Date().getFullYear();
 
-  submitUrl() {
-    if (this.url) {
-      console.log('Scraping URL:', this.url);
-      // Call service to scrape data
-    } else {
-      alert('Please enter a valid URL.');
-    }
-  }
   ngOnInit(){
 
 }

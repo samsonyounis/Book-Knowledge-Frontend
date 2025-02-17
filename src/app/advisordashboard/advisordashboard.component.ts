@@ -66,6 +66,10 @@ export class AdvisordashboardComponent {
     });
   }
 
+  CallSelectedMethod(selectedFeature:string){
+    
+  }
+
   closeNavbar() {
     const navbarCollapse = document.getElementById('navbarNav');
     if (navbarCollapse && navbarCollapse.classList.contains('show')) {
@@ -82,6 +86,12 @@ export class AdvisordashboardComponent {
 
   selectFeature(feature: string) {
     this.selectedFeature = feature;
+    if(feature==='analytics'){
+      this.getAnalytics();
+    }
+    if(feature==='insights'){
+      this.getAllInsights();
+    }
   }
 
   // Function to scrape tax data from the API
@@ -184,6 +194,7 @@ export class AdvisordashboardComponent {
         next: (data) => {
           if(data.status==='00'){
             this.addurlLoading = false
+            this.clientErrorMessage = "";
             this.clients.push({ clientId: this.newClient.clientId, name: this.newClient.clientName, email: this.newClient.clientEmail });
             this.newClient = { clientId:'', clientName: '', clientEmail: '' }; // Reset form
             const modalElement = document.getElementById('addClientModal');

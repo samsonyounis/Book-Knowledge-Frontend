@@ -33,43 +33,9 @@
     </div>
   </div>
 
-  <!-- URL Input Section -->
-  <div class="bg-light py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Scrape Tax Data</h2>
-      <form (ngSubmit)="submitUrl()">
-        <div class="row justify-content-center">
-          <div class="col-md-8">
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Enter website URL"
-                [(ngModel)]="url"
-                name="url"
-                required
-              />
-              <button class="btn btn-primary" type="submit">Scrape</button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Reports Section -->
-  <div class="py-5">
-    <div class="container text-center">
-      <h2 class="mb-4">Download Reports</h2>
-      <p>Access tax analysis reports in your preferred formats.</p>
-      <button class="btn btn-success mx-2">Download Excel</button>
-      <button class="btn btn-danger mx-2">Download PDF</button>
-    </div>
-  </div>
-
   <!-- Footer -->
   <footer class="bg-dark text-white text-center py-3">
-    <p>&copy; 2025 Financial Advisor Tool | All rights reserved.</p>
+    <p>&copy; {{ currentYear }} Financial Advisor Tool | All rights reserved.</p>
     <a href="#" class="text-white me-3">Privacy Policy</a>
     <a href="#" class="text-white">Terms of Service</a>
   </footer>
