@@ -113,7 +113,7 @@ export class AdvisordashboardComponent {
         next: (data) => {
           if (Object.values(data.data).length === 0) {
             this.isLoading = false;
-            this.errorMessage = "No tax data found on this website. Please check the URL";
+            this.errorMessage = "No tax data found on this website. Please check the URL"+data.message;
           } else {
             this.isLoading = false;
             this.scrapeMessage = data.message;
@@ -346,7 +346,7 @@ export class AdvisordashboardComponent {
         next: (data) => {
           if (Object.values(data.data).length === 0) {
             this.isLoading = false;
-            this.errorMessage = "No tax data found on this website. Please check the URL";
+            this.errorMessage = "No tax data found on this website. Please check the URL"+data.message;
           } else {
             this.isLoading = false;
             this.scrapeMessage = data.message;
