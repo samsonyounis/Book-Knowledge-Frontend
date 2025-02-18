@@ -16,6 +16,19 @@ export class ClientserviceService {
   private getFullUrl(endpoint: string): string {
     return `${this.baseUrl}${endpoint}`;
   }
+  downloadPdf(clientId: string): Observable<Blob> {
+    const token = this.userService.getToken();
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/pdf'
+    });
+
+    return this.http.get(this.getFullUrl(`/download-pdf?clientId=${clientId}`), {
+      headers,
+      responseType: 'blob'
+    }).pipe(catchError(this.handleError));
+  }
         fetchUrls(): Observable<any> {
           const token = this.userService.getToken();
           // Set up headers with Bearer Token

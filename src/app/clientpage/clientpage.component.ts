@@ -170,4 +170,23 @@ export class ClientpageComponent {
   getClientInsights(){
     console.log("Getting the clinet insights");
   }
+
+  downloadPdf(clientId: string) {
+    const payload = {
+      email: '',
+      clientId: this.clientId
+    }
+    this.clientService.downloadPdf(clientId).subscribe(response => {
+      const blob = new Blob([response], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      
+      // Create a link and trigger the download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Client_PDF_Report_${clientId}.pdf`;
+      a.click();
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+    });
+  }
 }

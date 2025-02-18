@@ -257,11 +257,9 @@ export class AdvisordashboardComponent {
             }));
             this.isLoading = false;
           }
-          this.fetchScrapedData(); // Call fetchScrapedData after fetchUrls completes
           console.log("Loaded urls:", this.isLoading);
         },
         error: () => {
-          this.fetchScrapedData(); // Call fetchScrapedData after fetchUrls completes
           this.isLoading = false;
           console.log("Error occured:");
         }
@@ -277,9 +275,11 @@ export class AdvisordashboardComponent {
           this.analytics.totalClients = data.data.totalClients;
           this.analytics.brokerage = data.data.brokerageAccounts;
           this.analytics.advisory = data.data.advisoryAccounts;
+          this.fetchScrapedData(); // Call fetchScrapedData after fetchUrls completes
           this.isLoading = false;
         },
         error: () => {
+          this.fetchScrapedData(); // Call fetchScrapedData after fetchUrls completes
           this.isLoading = false;
           console.log("Error occured:");
         }
