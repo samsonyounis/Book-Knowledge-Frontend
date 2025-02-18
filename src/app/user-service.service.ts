@@ -75,7 +75,7 @@ private tokenKey = 'auth_token';
   // Remove the token from local storage (logout)
   logout(): void {
     localStorage.removeItem(this.tokenKey);
-    this.router.navigateByUrl('/login'); // Redirect to login page
+    this.router.navigate(['/login']); // Redirect to login page
   }
 
   // Check if the user is logged in

@@ -49,10 +49,10 @@ export class AdvisordashboardComponent {
 
 
   ngOnInit() {
-    this.fetchUrls(); // Fetch URLs on component load
-    this.fetchCliets();
-    this.fetchScrapedData();
-    this.getAllInsights();
+    // this.fetchUrls(); // Fetch URLs on component load
+    // this.fetchCliets();
+    // this.fetchScrapedData();
+    // this.getAllInsights();
     this.getAnalytics();
     // Auto-close navbar when clicking outside
     document.addEventListener('click', (event) => {
@@ -91,6 +91,13 @@ export class AdvisordashboardComponent {
     }
     if(feature==='insights'){
       this.getAllInsights();
+    }
+    if(feature==='clients'){
+      this.fetchCliets();
+    }
+    if(feature==='scrape'){
+      this.fetchUrls();
+      this.fetchScrapedData();
     }
   }
 
@@ -232,11 +239,13 @@ export class AdvisordashboardComponent {
     this.urls.splice(index, 1);
   }
   fetchUrls() {
+    this.isLoading = true;
     console.log("Fetching urls");
     this.advisorService.fetchUrls()
       .subscribe({
         next: (data) => {
           if (Object.values(data.data).length === 0) {
+            this.isLoading = false;
             console.log("No url data found",data.meesage);
           } else {
             this.urls = data.data.map((item: any) => ({
@@ -246,16 +255,19 @@ export class AdvisordashboardComponent {
               selectors: item.selectors,
               editing: false
             }));
+            this.isLoading = false;
           }
           console.log("Loaded urls:", this.isLoading);
         },
         error: () => {
+          this.isLoading = false;
           console.log("Error occured:");
         }
       });
   }
 
   getAnalytics() {
+    this.isLoading = true;
     console.log("Fetching analytics");
     this.advisorService.getAnalytics()
       .subscribe({
@@ -263,26 +275,32 @@ export class AdvisordashboardComponent {
           this.analytics.totalClients = data.data.totalClients;
           this.analytics.brokerage = data.data.brokerageAccounts;
           this.analytics.advisory = data.data.advisoryAccounts;
+          this.isLoading = false;
         },
         error: () => {
+          this.isLoading = false;
           console.log("Error occured:");
         }
       });
   }
 
   getAllInsights() {
+    this.isLoading = true;
     console.log("Fetching insights");
     this.advisorService.getAllInsights()
       .subscribe({
         next: (data) => {
           if (Object.values(data.data).length === 0) {
+            this.isLoading = false;
             console.log("No insights found",data.meesage);
           } else {
             this.insights = data.data;
+            this.isLoading = false;
           }
           console.log("Loaded insights:", this.isLoading);
         },
         error: () => {
+          this.isLoading = false;
           console.log("Error occured:");
         }
       });
@@ -290,11 +308,13 @@ export class AdvisordashboardComponent {
 
   fetchCliets() {
     console.log("Fetching Clients");
+    this.isLoading = true;
     this.advisorService.fetchClients()
       .subscribe({
         next: (data) => {
           if (Object.values(data.data).length === 0) {
             this.clientErrorMessage = "No clients yet";
+            this.isLoading = false;
             console.log("No Clients data found",data.meesage);
           } else {
             this.clients = data.data.map((client: any) => ({
@@ -302,15 +322,17 @@ export class AdvisordashboardComponent {
               name: client.clientName,
               email: client.clientEmail,
             }));
+            this.isLoading = false;
           }
-          console.log("Loaded urls:", this.isLoading);
         },
-        error: () => {
-          console.log("Error occured:");
+        error: (error) => {
+          this.isLoading = false;
+          console.log("Error occured:"+error.message);
         }
       });
   }
   fetchScrapedData() {
+    this.isLoading = true;
     console.log("Fetching previously scraped data");
     this.advisorService.fetchScrapedData()
       .subscribe({
@@ -327,6 +349,7 @@ export class AdvisordashboardComponent {
           console.log("Loaded urls:", this.isLoading);
         },
         error: () => {
+          this.isLoading = false;
           console.log("Error occured:");
         }
       });
