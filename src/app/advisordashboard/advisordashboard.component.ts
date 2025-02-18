@@ -97,7 +97,7 @@ export class AdvisordashboardComponent {
     }
     if(feature==='scrape'){
       this.fetchUrls();
-      this.fetchScrapedData();
+      // this.fetchScrapedData();
     }
   }
 
@@ -257,9 +257,11 @@ export class AdvisordashboardComponent {
             }));
             this.isLoading = false;
           }
+          this.fetchScrapedData(); // Call fetchScrapedData after fetchUrls completes
           console.log("Loaded urls:", this.isLoading);
         },
         error: () => {
+          this.fetchScrapedData(); // Call fetchScrapedData after fetchUrls completes
           this.isLoading = false;
           console.log("Error occured:");
         }
