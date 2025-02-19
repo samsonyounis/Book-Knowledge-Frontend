@@ -141,12 +141,6 @@ export class ClientpageComponent {
     });
   }
 
-  downloadReport(type: string) {
-    const clientId = this.client.clientId;
-    const url = `/api/reports/${type}/${clientId}`;
-    window.open(url, '_blank');
-  }
-
   generateChartData() {
     const brokerageTax = this.reports
     .filter(r => r.investmentType.toLowerCase().includes('brokerage'))
@@ -189,4 +183,18 @@ export class ClientpageComponent {
       window.URL.revokeObjectURL(url);
     });
   }
+
+  downloadClientExcelReport(clientId: string) {
+    this.clientService.downloadExcel(clientId).subscribe(response => {
+        const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Client_Tax_Report.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    });
+}
+
 }

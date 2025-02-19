@@ -29,7 +29,22 @@ export class ClientserviceService {
       responseType: 'blob'
     }).pipe(catchError(this.handleError));
   }
-        fetchUrls(): Observable<any> {
+
+  downloadExcel(clientId: string): Observable<Blob> {
+    const token = this.userService.getToken();
+    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+
+    return this.http.get(this.getFullUrl(`/download-excel?clientId=${clientId}`), {
+      headers,
+      responseType: 'blob'
+    }).pipe(catchError(this.handleError));
+}
+
+      fetchUrls(): Observable<any> {
           const token = this.userService.getToken();
           // Set up headers with Bearer Token
           const headers = new HttpHeaders({
