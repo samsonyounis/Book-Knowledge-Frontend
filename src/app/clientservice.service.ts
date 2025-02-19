@@ -18,7 +18,6 @@ export class ClientserviceService {
   }
   downloadPdf(clientId: string): Observable<Blob> {
     const token = this.userService.getToken();
-
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Accept': 'application/pdf'
