@@ -42,9 +42,10 @@
                 <th>Account Name</th>
                 <th>Investment Type</th>
                 <th>Shares Owned</th>
+                <th>Total Gains</th>
                 <th>Qualified Dividend Tax</th>
-                <th>Capital Gains LT</th>
-                <th>Capital Gains ST</th>
+                <th>ST Gains Tax</th>
+                <th>LT Gains Tax</th>
                 <th>Special Dividend Tax</th>
                 <th>Total Tax</th>
               </tr>
@@ -54,6 +55,7 @@
                 <td>{{ report.accountName }}</td>
                 <td>{{ report.investmentType }}</td>
                 <td>{{ report.sharesOwned }}</td>
+                <td>{{ report.totalGains | currency }}</td>
                 <td>{{ report.qualifiedDividendTax | currency }}</td>
                 <td>{{ report.capitalGainsLongTermTax | currency }}</td>
                 <td>{{ report.capitalGainsShortTermTax | currency }}</td>
