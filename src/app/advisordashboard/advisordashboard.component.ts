@@ -24,6 +24,8 @@ export class AdvisordashboardComponent {
   scrapeUrl: string = '';
   scrapeMessage ='';
   taxData: any[] = [];
+  dynamicTaxData: any[] = [];
+  columns: string[]=[];
   insights: any[] = [];
   analytics = {totalClients:0, brokerage:0, advisory:0};
 
@@ -65,6 +67,7 @@ export class AdvisordashboardComponent {
       }
     });
   }
+
 
   CallSelectedMethod(selectedFeature:string){
     
@@ -125,6 +128,44 @@ export class AdvisordashboardComponent {
             this.isLoading = false;
             this.scrapeMessage = data.message;
             this.taxData = Object.values(data.data);
+          }
+        },
+        error: () => {
+          this.errorMessage = "Server error. Please try again.";
+          this.isLoading = false;
+          console.log("Loading started:", this.isLoading);
+        }
+      });
+    }
+  }
+
+  scrapeWebTaxData() {
+    if (this.scrapeUrl.trim() === '') {
+      alert("URL field is empty....Please enter URL")
+    }
+    const urlPayload = {
+      url: this.scrapeUrl
+    }
+    if (this.scrapeUrl) {
+      alert(`Scraping data from: ${this.scrapeUrl}`);
+      this.isLoading = true;
+      this.errorMessage ='';
+      this.taxData = [];
+      this.dynamicTaxData = [];
+      console.log("Loading started:", this.isLoading);
+      this.advisorService.scrapeTaxData(urlPayload)
+      .subscribe({
+        next: (data) => {
+          if (Object.values(data.data).length === 0) {
+            this.isLoading = false;
+            this.errorMessage = "No tax data found on this website. Please check the URL";
+          } else {
+            this.isLoading = false;
+            this.scrapeMessage = data.message;
+            this.dynamicTaxData = Object.values(data.data);
+            console.log("dynamic data size"+this.dynamicTaxData.length)
+            this.columns= this.dynamicTaxData.length > 0 ? Object.keys(this.dynamicTaxData[0]) : [];
+
           }
         },
         error: () => {

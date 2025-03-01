@@ -387,7 +387,24 @@
                 </ng-template>
               </div>
             </div>
-      
+            <!-- Display dynamic table -->
+            <div *ngIf="!isLoading && dynamicTaxData.length > 0">
+              <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                  <thead class="table-dark">
+                    <tr>
+                      <th *ngFor="let column of columns">{{ column }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of dynamicTaxData">
+                      <td *ngFor="let column of columns">{{ row[column] }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
             <div *ngIf="selectedFeature === 'reports'">
               <!-- Reports Section -->
               <h2 class="mb-4">View Reports</h2>
