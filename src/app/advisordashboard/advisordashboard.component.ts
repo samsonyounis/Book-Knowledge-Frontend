@@ -176,6 +176,7 @@ export class AdvisordashboardComponent {
       });
     }
   }
+  
   openAddUrlModal() {
     const modalElement = document.getElementById('addUrlModal');
     if (modalElement) {
