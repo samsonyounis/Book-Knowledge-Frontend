@@ -157,6 +157,7 @@ export class AdvisordashboardComponent {
       .subscribe({
         next: (data) => {
           if (Object.values(data.data).length === 0) {
+            
             this.isLoading = false;
             this.errorMessage = "No tax data found on this website. Please check the URL";
           } else {
@@ -176,7 +177,7 @@ export class AdvisordashboardComponent {
       });
     }
   }
-  
+
   openAddUrlModal() {
     const modalElement = document.getElementById('addUrlModal');
     if (modalElement) {
