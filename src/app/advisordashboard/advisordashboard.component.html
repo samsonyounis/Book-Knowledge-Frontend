@@ -297,7 +297,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary" style="margin-right: 16px;">Scrape URL</button>
               </form>
-                        <!-- Table to Display Added URLs -->
+                        <!-- Table to Display Added URLs
           <div *ngIf="addurlLoading" style="text-align: center;">
                 <p>Adding URL...</p>
               <div class="spinner-border text-primary" role="status">
@@ -337,13 +337,13 @@
                     <button *ngIf="!urlData.editing" class="btn btn-sm btn-warning me-2" (click)="editUrl(urlData)">Edit</button>
                     <button *ngIf="urlData.editing" class="btn btn-sm btn-success me-2" (click)="saveUrl(urlData)">Save</button>
                     <button class="btn btn-sm btn-danger me-2" (click)="deleteUrl(i)">Delete</button>
-                    <button class="btn btn-sm btn-danger" (click)="scrapeFromUrl(urlData)">Scrape URL</button>
-                  </td>
+                     <button class="btn btn-sm btn-danger" (click)="scrapeFromUrl(urlData)">Scrape URL</button> -->
+                  <!-- </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p *ngIf="urls.length === 0" class="text-muted">No URLs added yet.</p>
+          <p *ngIf="urls.length === 0" class="text-muted">No URLs added yet.</p> -->
 
               <div *ngIf="isLoading" style="text-align: center;">
                 <p>Scraping data...this may take up to 10 seconds</p>
@@ -356,7 +356,9 @@
               </div>
               <!-- Table to display the scraped tax data -->
               <div *ngIf="!isLoading && taxData.length > 0">
-                <h3 class="mt-4">{{ scrapeMessage }}</h3>
+                <h3 class="mt-4">{{ scrapeMessage}}</h3>
+                <!-- <input type="text" [(ngModel)]="fundName" class="form-control"> -->
+                <h3 class="mt-4">{{ fundName }}</h3>
                 <table class="table table-bordered">
                   <thead>
                     <tr>

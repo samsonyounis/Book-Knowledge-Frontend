@@ -20,6 +20,7 @@ export class AdvisordashboardComponent {
               private advisorService: AdvisordashboardserviceService){}
 
   fullName = localStorage.getItem("username");
+  fundName ='';
   selectedFeature: string = 'analytics';
   scrapeUrl: string = '';
   scrapeMessage ='';
@@ -164,6 +165,8 @@ export class AdvisordashboardComponent {
           } else {
             this.isLoading = false;
             this.scrapeMessage = data.message;
+            console.log("fund name is: "+data.metadata)
+            this.fundName = data.metadata;
             this.dynamicTaxData = Object.values(data.data);
             console.log("dynamic data size"+this.dynamicTaxData.length)
             this.columns= this.dynamicTaxData.length > 0 ? Object.keys(this.dynamicTaxData[0]) : [];
