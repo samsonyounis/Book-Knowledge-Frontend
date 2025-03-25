@@ -5,22 +5,28 @@ import { FormsModule } from '@angular/forms';
 import { UserServiceService } from '../user-service.service';
 import { AdvisordashboardserviceService } from '../advisordashboardservice.service';
 import { catchError, map, Observable } from 'rxjs';
+import { SafeUrlPipe } from '../safe-url.pipe';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 declare var bootstrap: any;
 
 
 @Component({
   selector: 'app-advisordashboard',
-  imports: [CommonModule,FormsModule,RouterModule],
+  imports: [CommonModule,FormsModule,RouterModule,SafeUrlPipe],
   templateUrl: './advisordashboard.component.html',
   styleUrl: './advisordashboard.component.css'
 })
 export class AdvisordashboardComponent {
   constructor(private userService: UserServiceService,
               private route:ActivatedRoute,
-              private advisorService: AdvisordashboardserviceService){}
+              private advisorService: AdvisordashboardserviceService,
+              private sanitizer: DomSanitizer){}
+
 
   fullName = localStorage.getItem("username");
   fundName ='';
+  showPdf = false;
+  pdfUrl ='';
   selectedFeature: string = 'analytics';
   scrapeUrl: string = '';
   scrapeMessage ='';
@@ -152,26 +158,63 @@ export class AdvisordashboardComponent {
       this.isLoading = true;
       this.errorMessage ='';
       this.taxData = [];
+      this.showPdf = false;
       this.dynamicTaxData = [];
       console.log("Loading started:", this.isLoading);
       this.advisorService.scrapeTaxData(urlPayload)
       .subscribe({
-        next: (data) => {
-          console.log("Logging the data "+data.data);
-          if (Object.values(data.data).length === 0) {
+        next: (response) => {
+          console.log("Logging the data "+response.data);
+          if (response.status === "00") {
+            if (response.data.pdfUrl) {
+              // If PDF is detected, show it in an iframe
+              this.isLoading = false;
+              // const encodedPath = encodeURIComponent(response.data.pdfUrl); // Encode the file path
+              // this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`http://localhost:4009/api/v1/advisor/view-pdf?fileName=${response.data.pdfUrl}`);
 
-            this.isLoading = false;
-            this.errorMessage = "No tax data found on this website. Please check the URL";
-          } else {
-            this.isLoading = false;
-            this.scrapeMessage = data.message;
-            console.log("fund name is: "+data.metadata)
-            this.fundName = data.metadata;
-            this.dynamicTaxData = Object.values(data.data);
-            console.log("dynamic data size"+this.dynamicTaxData.length)
-            this.columns= this.dynamicTaxData.length > 0 ? Object.keys(this.dynamicTaxData[0]) : [];
+              https://tax-app-backend-50fa99ed12cc.herokuapp.com
+              this.pdfUrl = `https://tax-app-backend-50fa99ed12cc.herokuapp.com/api/v1/advisor/view-pdf?fileName=${response.data.pdfUrl}`;
+              // this.pdfUrl = response.data.pdfUrl;
+              console.log("Pdf url: "+this.pdfUrl);
+              this.showPdf = true;
+              this.taxData = []; // Clear table data
+            } else {
+              // Otherwise, show extracted table data
+              if (Object.values(response.data).length === 0) {
+                this.isLoading = false;
+                this.errorMessage = "No tax data found on this website. Please check the URL";
+              }
+              else{
+                this.isLoading = false;
+                this.scrapeMessage = response.message;
+                console.log("fund name is: "+response.metadata)
+                this.fundName = response.metadata;
+                this.dynamicTaxData = Object.values(response.data);
+                console.log("dynamic data size"+this.dynamicTaxData.length)
+                this.columns= this.dynamicTaxData.length > 0 ? Object.keys(this.dynamicTaxData[0]) : [];
+                this.showPdf = false;
+              }
 
+            }
           }
+           else {
+            this.errorMessage = response.message;
+            this.isLoading = false;
+          }
+          // if (Object.values(response.data).length === 0) {
+
+          //   this.isLoading = false;
+          //   this.errorMessage = "No tax data found on this website. Please check the URL";
+          // } else {
+          //   this.isLoading = false;
+          //   this.scrapeMessage = response.message;
+          //   console.log("fund name is: "+response.metadata)
+          //   this.fundName = response.metadata;
+          //   this.dynamicTaxData = Object.values(response.data);
+          //   console.log("dynamic data size"+this.dynamicTaxData.length)
+          //   this.columns= this.dynamicTaxData.length > 0 ? Object.keys(this.dynamicTaxData[0]) : [];
+
+          // }
         },
         error: () => {
           this.errorMessage = "Server error. Please try again.";
