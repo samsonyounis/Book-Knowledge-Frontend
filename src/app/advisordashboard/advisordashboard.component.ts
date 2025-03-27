@@ -172,7 +172,8 @@ export class AdvisordashboardComponent {
               // const encodedPath = encodeURIComponent(response.data.pdfUrl); // Encode the file path
               // this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`http://localhost:4009/api/v1/advisor/view-pdf?fileName=${response.data.pdfUrl}`);
 
-              https://tax-app-backend-50fa99ed12cc.herokuapp.com
+              // https://tax-app-backend-50fa99ed12cc.herokuapp.com
+              // http://localhost:4009
               this.pdfUrl = `https://tax-app-backend-50fa99ed12cc.herokuapp.com/api/v1/advisor/view-pdf?fileName=${response.data.pdfUrl}`;
               // this.pdfUrl = response.data.pdfUrl;
               console.log("Pdf url: "+this.pdfUrl);
