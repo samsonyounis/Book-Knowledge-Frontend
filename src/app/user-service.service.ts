@@ -18,6 +18,7 @@ private tokenKey = 'auth_token';
   private getFullUrl(endpoint: string): string {
     return `${this.baseUrl}${endpoint}`;
   }
+  
 
   createPoll(poll: any): Observable<any> {
     return this.http.post(this.getFullUrl("/register"), poll)
