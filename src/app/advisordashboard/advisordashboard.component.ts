@@ -6,7 +6,8 @@ import { UserServiceService } from '../user-service.service';
 import { AdvisordashboardserviceService } from '../advisordashboardservice.service';
 import { catchError, map, Observable } from 'rxjs';
 import { SafeUrlPipe } from '../safe-url.pipe';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl,SafeHtml } from '@angular/platform-browser';
+
 declare var bootstrap: any;
 
 
@@ -20,12 +21,14 @@ export class AdvisordashboardComponent {
   constructor(private userService: UserServiceService,
               private route:ActivatedRoute,
               private advisorService: AdvisordashboardserviceService,
-              private sanitizer: DomSanitizer){}
+              private sanitizer: DomSanitizer){}   
 
+  rawHtml: SafeHtml = '';
 
   fullName = localStorage.getItem("username");
   fundName ='';
   showPdf = false;
+  showHtmlPage = false;
   pdfUrl ='';
   selectedFeature: string = 'analytics';
   scrapeUrl: string = '';
@@ -73,6 +76,10 @@ export class AdvisordashboardComponent {
         }
       }
     });
+  }
+
+  setHtml(html: string) {
+    this.rawHtml = this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
 
@@ -166,9 +173,9 @@ export class AdvisordashboardComponent {
         next: (response) => {
           console.log("Logging the data "+response.data);
           if (response.status === "00") {
+            this.isLoading = false;
             if (response.data.pdfUrl) {
               // If PDF is detected, show it in an iframe
-              this.isLoading = false;
               // const encodedPath = encodeURIComponent(response.data.pdfUrl); // Encode the file path
               // this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`http://localhost:4009/api/v1/advisor/view-pdf?fileName=${response.data.pdfUrl}`);
 
@@ -179,7 +186,15 @@ export class AdvisordashboardComponent {
               console.log("Pdf url: "+this.pdfUrl);
               this.showPdf = true;
               this.taxData = []; // Clear table data
-            } else {
+            }
+            else if(response.data.htmlPage){
+              console.log("Page data: "+response.data.htmlPage);
+              this.showHtmlPage = true;
+              this.rawHtml = response.data.htmlPage;
+              console.log("showHtmlPage: "+this.showHtmlPage);
+              this.taxData = [];
+            } 
+            else {
               // Otherwise, show extracted table data
               if (Object.values(response.data).length === 0) {
                 this.isLoading = false;

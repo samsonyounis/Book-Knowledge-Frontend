@@ -356,12 +356,16 @@
               </div>
                             <!-- Display PDF -->
               <div *ngIf="showPdf">
-                <h3 class="mt-4">Fund Data</h3>
+                <h3 class="mt-4">Fund Data...</h3>
                 <!-- <img [src]="pdfUrl"/> -->
                 <iframe [src]="pdfUrl | safeUrl" width="100%" height="600px"></iframe>
 <!-- 
                 <iframe [src]="pdfUrl | safeUrl" width="100%" height="600px" sandbox="allow-scripts allow-same-origin allow-downloads">
                 </iframe> -->
+              </div>
+              <div *ngIf="showHtmlPage">
+                <h3 class="mt-4">Fund Data Content...</h3>
+                <div [innerHTML]="rawHtml"></div>
               </div>
               <!-- Table to display the scraped tax data -->
               <div *ngIf="!isLoading && taxData.length > 0">
