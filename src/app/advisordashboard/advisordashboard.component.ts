@@ -181,7 +181,7 @@ export class AdvisordashboardComponent {
 
               // https://tax-app-backend-50fa99ed12cc.herokuapp.com
               // http://localhost:4009
-              this.pdfUrl = `https://tax-app-backend-50fa99ed12cc.herokuapp.com/api/v1/advisor/view-pdf?fileName=${response.data.pdfUrl}`;
+              this.pdfUrl = `https://tax-autmation-backend.onrender.com/api/v1/advisor/view-pdf?fileName=${response.data.pdfUrl}`;
               // this.pdfUrl = response.data.pdfUrl;
               console.log("Pdf url: "+this.pdfUrl);
               this.showPdf = true;
@@ -198,7 +198,7 @@ export class AdvisordashboardComponent {
               // Otherwise, show extracted table data
               if (Object.values(response.data).length === 0) {
                 this.isLoading = false;
-                this.errorMessage = "No tax data found on this website. Please check the URL";
+                this.errorMessage = "No tax data found on this website. Please check the URL or try a different URL";
               }
               else{
                 this.isLoading = false;
@@ -217,20 +217,6 @@ export class AdvisordashboardComponent {
             this.errorMessage = response.message;
             this.isLoading = false;
           }
-          // if (Object.values(response.data).length === 0) {
-
-          //   this.isLoading = false;
-          //   this.errorMessage = "No tax data found on this website. Please check the URL";
-          // } else {
-          //   this.isLoading = false;
-          //   this.scrapeMessage = response.message;
-          //   console.log("fund name is: "+response.metadata)
-          //   this.fundName = response.metadata;
-          //   this.dynamicTaxData = Object.values(response.data);
-          //   console.log("dynamic data size"+this.dynamicTaxData.length)
-          //   this.columns= this.dynamicTaxData.length > 0 ? Object.keys(this.dynamicTaxData[0]) : [];
-
-          // }
         },
         error: () => {
           this.errorMessage = "Server error. Please try again.";
