@@ -1,44 +1,47 @@
-<div class="container-fluid pt-5 my-5">
+<div class="container py-5">
+  <div class="card shadow p-4">
+    <h3 class="text-center mb-4">🎤 Ask Your Book</h3>
 
-<!-- src/app/components/home/home.component.html -->
-<div class="container-fluid p-0">
-  <!-- Hero Section -->
-  <div class="bg-primary text-white text-center py-5">
-    <h1 class="display-4">Financial Advisory Tax Automation</h1>
-    <p class="lead">Save time, calculate taxes accurately, and unlock actionable insights for your clients.</p>
-    <a href="#features" class="btn btn-light btn-lg mt-3">Learn More</a>
-  </div>
-
-  <!-- Features Section -->
-  <div id="features" class="py-5">
-    <div class="container text-center">
-      <h2 class="mb-4">Key Features</h2>
-      <div class="row">
-        <div class="col-md-4">
-          <i class="bi bi-globe h1 text-primary"></i>
-          <h4>Automated Tax Data Scraping</h4>
-          <p>Fetch yearly updated tax data from any website provided by financial advisors.</p>
-        </div>
-        <div class="col-md-4">
-          <i class="bi bi-calculator h1 text-primary"></i>
-          <h4>Accurate Tax Calculations</h4>
-          <p>Apply tax rates to client holdings and calculate taxes with automated formulas.</p>
-        </div>
-        <div class="col-md-4">
-          <i class="bi bi-file-earmark-pdf h1 text-primary"></i>
-          <h4>Custom Reports</h4>
-          <p>Generate polished PDF summaries and editable Excel reports for clients.</p>
-        </div>
+    <!-- PDF Upload -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Upload Your Book</label>
+      <input type="file" accept="application/pdf" class="form-control" (change)="onPdfSelected($event)" />
+      <div *ngIf="selectedFile" class="mt-2 text-success">
+        ✅ {{ selectedFile.name }}
       </div>
     </div>
+
+    <!-- Recording Controls -->
+    <div class="mb-3 text-center">
+      <button class="btn btn-primary me-2" [disabled]="recording" (click)="startRecording()">🎙️ Record Your Question</button>
+      <button class="btn btn-danger me-2" [disabled]="!recording" (click)="stopRecording()">⏹️ Stop</button>
+      <button class="btn btn-outline-secondary" [disabled]="!recording && !audioUrl" (click)="cancelRecording()">❌ Cancel</button>
+    </div>
+
+    <!-- Audio Preview (Before Submit) -->
+    <div *ngIf="!recording" class="mb-3 text-center">
+      <p class="text-success">✅ Voice recorded. Listen below:</p>
+      <audio [src]="audioUrl" controls></audio>
+    </div>
+
+    <!-- Submit -->
+    <div class="text-center mb-4">
+      <button class="btn btn-success" (click)="submit()">🚀 Submit & Ask</button>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="loading" class="text-center my-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Answering your question from the Book. In a few mements</p>
+    </div>
+
+    <!-- AI Answer -->
+    <div *ngIf="answer && !loading" class="alert alert-info">
+      <h5 class="fw-bold">Answer:</h5>
+      <p>{{ answer }}</p>
+      <audio *ngIf="answerAudioUrl" [src]="answerAudioUrl" controls autoplay></audio>
+    </div>
   </div>
-
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3">
-    <p>&copy; {{ currentYear }} Financial Advisor Tool | All rights reserved.</p>
-    <a href="#" class="text-white me-3">Privacy Policy</a>
-    <a href="#" class="text-white">Terms of Service</a>
-  </footer>
-</div>
-
 </div>
