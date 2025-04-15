@@ -5,28 +5,53 @@
     <!-- PDF Upload -->
     <div class="mb-3">
       <label class="form-label fw-bold">Upload Your Book</label>
-      <input type="file" accept="application/pdf" class="form-control" (change)="onPdfSelected($event)" />
+      <input
+        type="file"
+        accept="application/pdf"
+        class="form-control"
+        (change)="onPdfSelected($event)"
+      />
       <div *ngIf="selectedFile" class="mt-2 text-success">
         ✅ {{ selectedFile.name }}
       </div>
     </div>
 
     <!-- Recording Controls -->
-    <div class="mb-3 text-center">
-      <button class="btn btn-primary me-2" [disabled]="recording" (click)="startRecording()">🎙️ Record Your Question</button>
-      <button class="btn btn-danger me-2" [disabled]="!recording" (click)="stopRecording()">⏹️ Stop</button>
-      <button class="btn btn-outline-secondary" [disabled]="!recording && !audioUrl" (click)="cancelRecording()">❌ Cancel</button>
+    <div class="mb-3 d-flex flex-wrap justify-content-center gap-2">
+      <button
+        class="btn btn-primary"
+        [disabled]="recording"
+        (click)="startRecording()"
+      >
+        🎙️ Record Your Question
+      </button>
+      <button
+        class="btn btn-danger"
+        [disabled]="!recording"
+        (click)="stopRecording()"
+      >
+        ⏹️ Stop
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        [disabled]="!recording && !audioUrl"
+        (click)="cancelRecording()"
+      >
+        ❌ Cancel
+      </button>
     </div>
 
     <!-- Audio Preview (Before Submit) -->
-    <div *ngIf="!recording" class="mb-3 text-center">
+    <div *ngIf="!recording && audioUrl" class="mb-3 text-center">
       <p class="text-success">✅ Voice recorded. Listen below:</p>
-      <audio [src]="audioUrl" controls></audio>
+      <audio [src]="audioUrl" controls class="w-100"></audio>
     </div>
 
     <!-- Submit -->
     <div class="text-center mb-4">
-      <button class="btn btn-success" (click)="submit()">🚀 Submit & Ask</button>
+      <button class="btn btn-success w-100 w-md-auto" (click)="submit()">
+        🚀 Submit & Ask
+      </button>
     </div>
 
     <!-- Loading Indicator -->
@@ -34,14 +59,22 @@
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <p class="mt-2">Answering your question from the Book. In a few mements</p>
+      <p class="mt-2">
+        Answering your question from the Book. Please wait a moment...
+      </p>
     </div>
 
     <!-- AI Answer -->
     <div *ngIf="answer && !loading" class="alert alert-info">
       <h5 class="fw-bold">Answer:</h5>
       <p>{{ answer }}</p>
-      <audio *ngIf="answerAudioUrl" [src]="answerAudioUrl" controls autoplay></audio>
+      <audio
+        *ngIf="answerAudioUrl"
+        [src]="answerAudioUrl"
+        controls
+        autoplay
+        class="w-100"
+      ></audio>
     </div>
   </div>
 </div>
