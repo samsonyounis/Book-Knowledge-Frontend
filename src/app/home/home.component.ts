@@ -22,7 +22,7 @@ export class HomeComponent {
   stopped = false;
   loading = false;
 
-  private baseUrl = "https://tax-autmation-backend.onrender.com/api/v1/user";
+  private baseUrl = "https://book-knowledge-backend.onrender.com/api/v1/ask";
   private localUrl = "http://localhost:8081/api/v1/ask";
 
   constructor(private http: HttpClient) {}
@@ -85,7 +85,7 @@ export class HomeComponent {
     this.answer = null;
     this.answerAudioUrl = null;
 
-    this.http.post<{ answer: string; ttsAudio: string }>(`${this.localUrl}`, formData).subscribe({
+    this.http.post<{ answer: string; ttsAudio: string }>(`${this.baseUrl}`, formData).subscribe({
       next: res => {
         this.answer = res.answer;
         this.answerAudioUrl = res.ttsAudio;
