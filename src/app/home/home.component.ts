@@ -73,7 +73,7 @@ export class HomeComponent {
 
   submit() {
     if (!this.selectedFile || !this.recordedBlob) {
-      alert('Please upload a PDF and record your question first.');
+      alert('Please upload a PDF Book and record your question first.');
       return;
     }
 
