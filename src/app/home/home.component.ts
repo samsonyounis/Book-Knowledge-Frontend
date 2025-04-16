@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,NgZone  } from '@angular/core';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +25,7 @@ export class HomeComponent {
   private baseUrl = "https://book-knowledge-backend.onrender.com/api/v1/ask";
   private localUrl = "http://localhost:8081/api/v1/ask";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private zone: NgZone) {}
 
   onPdfSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -48,8 +48,12 @@ export class HomeComponent {
       this.mediaRecorder.ondataavailable = e => chunks.push(e.data);
       this.mediaRecorder.onstop = () => {
         this.recordedBlob = new Blob(chunks, { type: 'audio/webm' });
-        this.audioUrl = URL.createObjectURL(this.recordedBlob);
-        this.recording = false;
+        const audioURL = URL.createObjectURL(this.recordedBlob);
+      
+        this.zone.run(() => {
+          this.audioUrl = audioURL;
+          this.recording = false;
+        });
       };
 
       this.mediaRecorder.start();
